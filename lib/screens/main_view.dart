@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:haathbarhao_mobile/screens/home_view.dart';
-import 'package:haathbarhao_mobile/screens/landing_view.dart';
+import 'package:haathbarhao_mobile/screens/authentication/landing_view.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({super.key});

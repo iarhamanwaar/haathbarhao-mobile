@@ -19,8 +19,14 @@ class ColorName {
   /// Color: #797B7C
   static const Color grey = Color(0xFF797B7C);
 
+  /// Color: #B8B8B8
+  static const Color lightGrey = Color(0xFFB8B8B8);
+
   /// Color: #00339E
   static const Color primary = Color(0xFF00339E);
+
+  /// Color: #181A1F
+  static const Color primaryBlack = Color(0xFF181A1F);
 
   /// Color: #00000000
   static const Color transparentColor = Color(0x00000000);

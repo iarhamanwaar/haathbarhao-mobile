@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:haathbarhao_mobile/screens/job_detail_view.dart';
-import 'package:haathbarhao_mobile/screens/login_view.dart';
+import 'package:haathbarhao_mobile/screens/authentication/login_view.dart';
 import 'package:haathbarhao_mobile/screens/main_view.dart';
 import 'package:haathbarhao_mobile/screens/profile_view.dart';
-import 'package:haathbarhao_mobile/screens/register_view.dart';
+import 'package:haathbarhao_mobile/screens/authentication/get_started_view.dart';
 
 enum AppRoute { main, register, login, jobDetailView, profile }
 
@@ -32,7 +32,7 @@ final goRouterProvider = StateProvider<GoRouter>(
             GoRoute(
               path: routeMap[AppRoute.register]!,
               name: AppRoute.register.name,
-              builder: (context, state) => const RegisterView(),
+              builder: (context, state) => const GetStartedView(),
             ),
 
             // Login View
