@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,8 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
 import 'package:haathbarhao_mobile/providers/go_router.dart';
+import 'package:haathbarhao_mobile/providers/user_repo_provider.dart';
 import 'package:haathbarhao_mobile/screens/authentication/widgets/custom_text_field.dart';
-
 import '../../gen/fonts.gen.dart';
 import '../../widgets/primary_button.dart';
 
@@ -26,7 +25,6 @@ class _RegisterViewState extends ConsumerState<GetStartedView> {
   final TextEditingController _roleController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final _auth = FirebaseAuth.instance;
   bool isLoading = false;
 
   onPressed() async {
@@ -36,7 +34,11 @@ class _RegisterViewState extends ConsumerState<GetStartedView> {
           isLoading = true;
         });
 
-        final auth = await _auth.createUserWithEmailAndPassword(
+        final userRepository = ref.read(userRepositoryProvider);
+
+        await userRepository.signupWithEmail(
+          name: _nameController.text.trim(),
+          role: _roleController.text.trim(),
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
@@ -45,19 +47,16 @@ class _RegisterViewState extends ConsumerState<GetStartedView> {
           isLoading = false;
         });
 
-        if (auth.user != null) {
-          await auth.user!.updateDisplayName(_nameController.text.trim());
-          if (mounted) context.goNamed(AppRoute.main.name);
-        }
+        if (mounted) context.goNamed(AppRoute.main.name);
       }
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       setState(() {
         isLoading = false;
       });
 
       Fluttertoast.showToast(
-        msg: e.message.toString(),
-        backgroundColor: Colors.red,
+        msg: e.toString(),
+        backgroundColor: ColorName.primary,
       );
 
       log(e.toString());
@@ -79,6 +78,7 @@ class _RegisterViewState extends ConsumerState<GetStartedView> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        appBar: AppBar(),
         body: Form(
           key: _formKey,
           child: SafeArea(
@@ -89,7 +89,7 @@ class _RegisterViewState extends ConsumerState<GetStartedView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 20),
                   const Text(
                     'Get started',
                     style: TextStyle(

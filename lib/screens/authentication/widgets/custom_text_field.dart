@@ -67,44 +67,41 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
       };
     }
 
-    return SizedBox(
-      height: 52,
-      child: TextFormField(
-        controller: widget.textEditingController,
-        style: GoogleFonts.spaceGrotesk(
+    return TextFormField(
+      controller: widget.textEditingController,
+      style: GoogleFonts.spaceGrotesk(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: ColorName.primaryBlack,
+      ),
+      validator: validator,
+      enableSuggestions: false,
+      autocorrect: false,
+      keyboardType: widget.type == 'Email' ? TextInputType.emailAddress : null,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: const Color(0xFF929292).withOpacity(0.2),
+        hintText: widget.type,
+        hintStyle: GoogleFonts.spaceGrotesk(
           fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: ColorName.primaryBlack,
+          color: ColorName.lightGrey,
         ),
-        validator: validator,
-        enableSuggestions: false,
-        autocorrect: false,
-        keyboardType:
-            widget.type == 'Email' ? TextInputType.emailAddress : null,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: const Color(0xFF929292).withOpacity(0.2),
-          hintText: widget.type,
-          hintStyle: GoogleFonts.spaceGrotesk(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: ColorName.lightGrey,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(100),
+          borderSide: const BorderSide(
+            color: ColorName.white,
           ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(100),
-            borderSide: const BorderSide(
-              color: ColorName.white,
-            ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(100),
+          borderSide: const BorderSide(
+            color: ColorName.white,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(100),
-            borderSide: const BorderSide(
-              color: ColorName.white,
-            ),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 24,
-          ),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 10,
         ),
       ),
     );

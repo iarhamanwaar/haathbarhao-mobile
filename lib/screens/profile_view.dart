@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,8 +16,6 @@ class ProfileView extends ConsumerStatefulWidget {
 }
 
 class _ProfileViewState extends ConsumerState<ProfileView> {
-  final user = FirebaseAuth.instance.currentUser;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +50,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             height: 70,
           ),
           Text(
-            user!.displayName ?? '',
+            '',
             style: GoogleFonts.inter(
               color: ColorName.primary,
               fontSize: 24,
@@ -133,7 +130,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             width: 200,
             child: OutlinedButton(
               onPressed: () {
-                FirebaseAuth.instance.signOut();
                 context.goNamed(AppRoute.main.name);
               },
               style: OutlinedButton.styleFrom(

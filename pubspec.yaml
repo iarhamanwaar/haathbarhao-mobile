@@ -27,17 +27,12 @@ dependencies:
   dio: ^5.0.2
   http:
 
-  # Authentication
-  firebase_auth:
-  google_sign_in: ^6.2.1
-  sign_in_with_apple:
-
   # Notifications and Messaging
   firebase_messaging: ^14.6.7
   flutter_local_notifications: ^16.2.0
 
   # Storage
-  shared_preferences:
+  shared_preferences: ^2.2.2
 
   # Analytics and Crash Reporting
   firebase_analytics: ^10.8.0
