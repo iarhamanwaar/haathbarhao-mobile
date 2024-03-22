@@ -9,12 +9,16 @@ class PrimaryButton extends ConsumerStatefulWidget {
   final String text;
   final bool invertColors;
   final bool isLoading;
+  final Color? backgroundColor;
+  final double? fontSize;
 
   const PrimaryButton({
     this.onPressed,
     required this.text,
     this.invertColors = false,
     this.isLoading = false,
+    this.backgroundColor,
+    this.fontSize = 20,
     super.key,
   });
 
@@ -32,8 +36,8 @@ class _PrimaryButtonState extends ConsumerState<PrimaryButton> {
         onPressed: widget.onPressed,
         style: OutlinedButton.styleFrom(
           side: BorderSide.none,
-          backgroundColor:
-              widget.invertColors ? ColorName.primary : ColorName.white,
+          backgroundColor: widget.backgroundColor ??
+              (widget.invertColors ? ColorName.primary : ColorName.white),
           shape: const StadiumBorder(),
           padding: EdgeInsets.zero,
         ),
@@ -48,7 +52,7 @@ class _PrimaryButtonState extends ConsumerState<PrimaryButton> {
             : Text(
                 widget.text,
                 style: GoogleFonts.spaceGrotesk(
-                  fontSize: 20,
+                  fontSize: widget.fontSize,
                   fontWeight: FontWeight.w700,
                   color:
                       widget.invertColors ? ColorName.white : ColorName.primary,

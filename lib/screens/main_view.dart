@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:haathbarhao_mobile/screens/authentication/landing_view.dart';
-import 'package:haathbarhao_mobile/screens/home_view.dart';
+import 'package:haathbarhao_mobile/screens/bottom_nav_bar.dart';
 import '../providers/token_provider.dart';
+import 'authentication/screens/landing_view.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({super.key});
@@ -17,7 +17,7 @@ class _MainViewState extends ConsumerState<MainView> {
     final token = ref.watch(tokenProvider);
 
     if (token != '') {
-      return const HomeView();
+      return const BottomNavBar();
     } else {
       return const LandingView();
     }

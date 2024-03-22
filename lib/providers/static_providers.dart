@@ -5,6 +5,12 @@ final sharedPreferenceProvider = FutureProvider(
   (ref) async => SharedPreferences.getInstance(),
 );
 
-final kBottomNavBarIndexProvider = StateProvider<int>((ref) {
+final bottomNavBarSelectedIndexProvider = StateProvider<int>((ref) {
   return 0;
 });
+
+final overviewTabSelectedIndexProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
+final loadingProvider = StateProvider<bool>((ref) => false);

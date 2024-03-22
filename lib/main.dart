@@ -5,7 +5,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:haathbarhao_mobile/core/app_export.dart';
 import 'package:haathbarhao_mobile/firebase_options.dart';
 import 'package:haathbarhao_mobile/providers/go_router.dart';
 import 'package:haathbarhao_mobile/utils/logger.dart';
@@ -52,15 +51,11 @@ class _AppState extends ConsumerState<App> {
   Widget build(BuildContext context) {
     final goRouter = ref.watch(goRouterProvider);
 
-    return Sizer(
-      builder: (context, orientation, deviceType) {
-        return MaterialApp.router(
-          title: "HaathBarhao",
-          theme: themeData,
-          debugShowCheckedModeBanner: false,
-          routerConfig: goRouter,
-        );
-      },
+    return MaterialApp.router(
+      title: "HaathBarhao",
+      theme: themeData,
+      debugShowCheckedModeBanner: false,
+      routerConfig: goRouter,
     );
   }
 }

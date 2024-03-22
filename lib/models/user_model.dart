@@ -15,6 +15,7 @@ class User {
   final String? email;
   final List<dynamic>? preferredCategories;
   final List<dynamic>? skills;
+  final String? profilePicture;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int? v;
@@ -26,6 +27,7 @@ class User {
     this.email,
     this.preferredCategories,
     this.skills,
+    this.profilePicture,
     this.createdAt,
     this.updatedAt,
     this.v,
@@ -42,6 +44,7 @@ class User {
         skills: json["skills"] == null
             ? []
             : List<dynamic>.from(json["skills"]!.map((x) => x)),
+        profilePicture: json["profilePicture"],
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
@@ -61,6 +64,7 @@ class User {
             : List<dynamic>.from(preferredCategories!.map((x) => x)),
         "skills":
             skills == null ? [] : List<dynamic>.from(skills!.map((x) => x)),
+        "profilePicture": profilePicture,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "__v": v,

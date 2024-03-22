@@ -110,16 +110,17 @@ class UserRepository {
     }
   }
 
-  Future<User> patchUser({
-    String? name,
-    String? email,
-    String? password,
-  }) async {
+  Future<User> patchUser(
+      {String? name,
+      String? email,
+      String? password,
+      String? profilePicture}) async {
     try {
       final body = jsonEncode({
         if (name != null) "name": name,
         if (email != null) "email": email,
         if (password != null) "password": password,
+        if (profilePicture != null) "profilePicture": profilePicture,
       });
 
       final response = await apiService.put(

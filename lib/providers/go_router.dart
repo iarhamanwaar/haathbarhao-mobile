@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:haathbarhao_mobile/screens/job_detail_view.dart';
-import 'package:haathbarhao_mobile/screens/authentication/login_view.dart';
-import 'package:haathbarhao_mobile/screens/main_view.dart';
-import 'package:haathbarhao_mobile/screens/profile_view.dart';
-import 'package:haathbarhao_mobile/screens/authentication/get_started_view.dart';
+import '../screens/authentication/screens/get_started_view.dart';
+import '../screens/authentication/screens/login_view.dart';
+import '../screens/home/job_detail_view.dart';
+import '../screens/main_view.dart';
+import '../screens/profile/profile_view.dart';
 
 enum AppRoute { main, register, login, jobDetailView, profile }
 

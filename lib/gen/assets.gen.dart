@@ -27,6 +27,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/fingerprint.svg
   String get fingerprint => 'assets/icons/fingerprint.svg';
 
+  /// File path: assets/icons/home_outlined.svg
+  String get homeOutlined => 'assets/icons/home_outlined.svg';
+
   /// File path: assets/icons/info_circular.svg
   String get infoCircular => 'assets/icons/info_circular.svg';
 
@@ -39,8 +42,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/notifications_outlined.svg
   String get notificationsOutlined => 'assets/icons/notifications_outlined.svg';
 
+  /// File path: assets/icons/overview_outlined.svg
+  String get overviewOutlined => 'assets/icons/overview_outlined.svg';
+
   /// File path: assets/icons/priority_outlined.svg
   String get priorityOutlined => 'assets/icons/priority_outlined.svg';
+
+  /// File path: assets/icons/profile_outlined.svg
+  String get profileOutlined => 'assets/icons/profile_outlined.svg';
 
   /// File path: assets/icons/reminder_outlined.svg
   String get reminderOutlined => 'assets/icons/reminder_outlined.svg';
@@ -64,11 +73,14 @@ class $AssetsIconsGen {
         doneCircular,
         filter,
         fingerprint,
+        homeOutlined,
         infoCircular,
         logoutFilled,
         nonVerified,
         notificationsOutlined,
+        overviewOutlined,
         priorityOutlined,
+        profileOutlined,
         reminderOutlined,
         searchFilled,
         seekerPower,
@@ -79,6 +91,16 @@ class $AssetsIconsGen {
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/car_washing.avif
+  String get carWashing => 'assets/images/car_washing.avif';
+
+  /// File path: assets/images/electrical_work.avif
+  String get electricalWork => 'assets/images/electrical_work.avif';
+
+  /// File path: assets/images/fan_cleaning.jpeg
+  AssetGenImage get fanCleaning =>
+      const AssetGenImage('assets/images/fan_cleaning.jpeg');
 
   /// File path: assets/images/image_not_found.png
   AssetGenImage get imageNotFound =>
@@ -167,12 +189,19 @@ class $AssetsImagesGen {
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
+  /// File path: assets/images/plumbing_work.jpeg
+  AssetGenImage get plumbingWork =>
+      const AssetGenImage('assets/images/plumbing_work.jpeg');
+
   /// File path: assets/images/user_image.png
   AssetGenImage get userImage =>
       const AssetGenImage('assets/images/user_image.png');
 
   /// List of all assets
   List<dynamic> get values => [
+        carWashing,
+        electricalWork,
+        fanCleaning,
         imageNotFound,
         imgArrowLeftOnprimary,
         imgArrowdropdown24px,
@@ -197,6 +226,7 @@ class $AssetsImagesGen {
         imgSettingsPowerPrimary,
         landingIllustration,
         logo,
+        plumbingWork,
         userImage
       ];
 }
