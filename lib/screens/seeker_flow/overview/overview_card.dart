@@ -50,7 +50,7 @@ class _OrderCardState extends ConsumerState<OverviewCard> {
 
   cancelOrder() async {
     final url = Uri.parse(
-        'https://wa.me/966531013669?text=I%20need%20help%20canceling%20my%20order.');
+        'https://wa.me/923237399596?text=I%20need%20help%20canceling%20my%20task.');
 
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
