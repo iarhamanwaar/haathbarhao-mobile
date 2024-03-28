@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:haathbarhao_mobile/models/job_counts_model.dart';
 import 'package:haathbarhao_mobile/providers/token_provider.dart';
 import '../models/user_model.dart';
 import 'api_provider.dart';
@@ -110,17 +111,41 @@ class UserRepository {
     }
   }
 
-  Future<User> patchUser(
-      {String? name,
-      String? email,
-      String? password,
-      String? profilePicture}) async {
+  Future<JobCounts> getUserJobCounts() async {
+    try {
+      final response = await apiService.get(
+        endpoint: '/api/users/job-counts',
+      );
+
+      if (response.statusCode == 200) {
+        final jobCounts =
+            jobCountsFromJson(jsonEncode(jsonDecode(response.data)['data']));
+
+        return jobCounts;
+      } else {
+        log(jsonDecode(response.data)['message']);
+        throw jsonDecode(response.data)['message'];
+      }
+    } catch (e) {
+      log(jsonDecode(e.toString()));
+      throw jsonDecode(e.toString());
+    }
+  }
+
+  Future<User> patchUser({
+    String? name,
+    String? email,
+    String? password,
+    String? profilePicture,
+    DateTime? dateOfBirth,
+  }) async {
     try {
       final body = jsonEncode({
         if (name != null) "name": name,
         if (email != null) "email": email,
         if (password != null) "password": password,
         if (profilePicture != null) "profilePicture": profilePicture,
+        if (dateOfBirth != null) "dateOfBirth": dateOfBirth.toIso8601String(),
       });
 
       final response = await apiService.put(

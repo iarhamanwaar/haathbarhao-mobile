@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:haathbarhao_mobile/gen/colors.gen.dart';
+import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
+import 'package:haathbarhao_mobile/providers/future_providers.dart';
 import 'package:haathbarhao_mobile/providers/static_providers.dart';
-import 'package:haathbarhao_mobile/screens/overview/overview_tab_bar.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/overview/overview_tab_bar.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/overview/overview_card.dart';
 
-import '../../gen/colors.gen.dart';
-import '../../gen/fonts.gen.dart';
-
-class OverviewView extends ConsumerStatefulWidget {
-  const OverviewView({super.key});
+class SeekerOverviewView extends ConsumerStatefulWidget {
+  const SeekerOverviewView({super.key});
 
   @override
   ConsumerState createState() => _OverviewViewState();
 }
 
-class _OverviewViewState extends ConsumerState<OverviewView> {
+class _OverviewViewState extends ConsumerState<SeekerOverviewView> {
   @override
   Widget build(BuildContext context) {
     final overviewTabSelectedIndex =
-        ref.watch(overviewTabSelectedIndexProvider);
+        ref.watch(seekerOverviewTabSelectedIndexProvider);
+    final tasks = ref.watch(tasksProvider);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F7FC),
         appBar: AppBar(
+          surfaceTintColor: ColorName.transparentColor,
           backgroundColor: const Color(0xFFF5F7FC),
           title: const Padding(
             padding: EdgeInsets.only(left: 20),
@@ -93,6 +96,36 @@ class _OverviewViewState extends ConsumerState<OverviewView> {
                     ),
                   ],
                 ),
+              ),
+              tasks.when(
+                data: (data) {
+                  return Expanded(
+                    child: ListView.separated(
+                      itemCount: data.length,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      itemBuilder: (context, index) {
+                        return OverviewCard(task: data[index]);
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 16);
+                      },
+                    ),
+                  );
+                },
+                error: (error, stackTrace) {
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                },
+                loading: () {
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                },
               ),
             ],
           ),

@@ -6,23 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:haathbarhao_mobile/gen/colors.gen.dart';
+import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
+import 'package:haathbarhao_mobile/providers/future_providers.dart';
+import 'package:haathbarhao_mobile/providers/go_router.dart';
 import 'package:haathbarhao_mobile/providers/static_providers.dart';
+import 'package:haathbarhao_mobile/providers/token_provider.dart';
+import 'package:haathbarhao_mobile/providers/user_repo_provider.dart';
+import 'package:haathbarhao_mobile/utils/constants.dart';
+import 'package:haathbarhao_mobile/widgets/loading_animation.dart';
 import 'package:haathbarhao_mobile/widgets/primary_button.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/profile/email_field.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/profile/name_field.dart';
 
-import '../../gen/colors.gen.dart';
-import '../../gen/fonts.gen.dart';
-import '../../providers/future_providers.dart';
-import '../../providers/go_router.dart';
-import '../../providers/token_provider.dart';
-import '../../providers/user_repo_provider.dart';
-import '../../utils/constants.dart';
-import '../../widgets/loading_animation.dart';
-import 'email_field.dart';
-import 'name_field.dart';
-
-class ProfileView extends ConsumerStatefulWidget {
-  const ProfileView({
+class SeekerProfileView extends ConsumerStatefulWidget {
+  const SeekerProfileView({
     super.key,
   });
 
@@ -30,7 +29,7 @@ class ProfileView extends ConsumerStatefulWidget {
   ConsumerState createState() => _ProfileEditState();
 }
 
-class _ProfileEditState extends ConsumerState<ProfileView> {
+class _ProfileEditState extends ConsumerState<SeekerProfileView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -114,7 +113,8 @@ class _ProfileEditState extends ConsumerState<ProfileView> {
 
   logout() {
     ref.read(tokenProvider.notifier).setToken('');
-    ref.read(bottomNavBarSelectedIndexProvider.notifier).state = 0;
+    ref.read(seekerBottomNavBarSelectedIndexProvider.notifier).state = 0;
+    ref.read(doerBottomNavBarSelectedIndexProvider.notifier).state = 0;
     if (context.mounted) context.goNamed(AppRoute.main.name);
   }
 

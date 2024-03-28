@@ -11,14 +11,14 @@ import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
 import 'package:haathbarhao_mobile/providers/go_router.dart';
 import 'package:haathbarhao_mobile/utils/jobs_data.dart';
 
-class HomeView extends ConsumerStatefulWidget {
-  const HomeView({super.key});
+class DoerHomeView extends ConsumerStatefulWidget {
+  const DoerHomeView({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends ConsumerState<HomeView> {
+class _HomeViewState extends ConsumerState<DoerHomeView> {
   final TextEditingController _searchController = TextEditingController();
 
   @override

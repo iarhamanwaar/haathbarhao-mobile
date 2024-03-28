@@ -16,6 +16,7 @@ dependencies:
   cached_network_image: ^3.3.0
   flutter_native_splash: ^2.3.1
   google_fonts: ^6.1.0
+  dropdown_button2: ^2.3.9
 
   # State Management
   flutter_riverpod:
@@ -45,6 +46,8 @@ dependencies:
   image_picker: ^1.0.1
   url_launcher: ^6.1.14
   permission_handler: ^11.1.0
+  geocoding: ^2.0.4
+  geolocator: ^9.0.0
 
   # Utility and Miscellaneous
   intl:

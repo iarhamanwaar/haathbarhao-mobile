@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:haathbarhao_mobile/gen/colors.gen.dart';
 
-import '../../gen/colors.gen.dart';
-
-class NameField extends ConsumerStatefulWidget {
+class EmailField extends ConsumerStatefulWidget {
   final TextEditingController textEditingController;
   final String text;
 
-  const NameField({
+  const EmailField({
     required this.textEditingController,
     required this.text,
     super.key,
   });
 
   @override
-  ConsumerState createState() => _NameFieldState();
+  ConsumerState createState() => _EmailFieldState();
 }
 
-class _NameFieldState extends ConsumerState<NameField> {
+class _EmailFieldState extends ConsumerState<EmailField> {
+  bool isValidEmail(String value) {
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(value);
+  }
+
   @override
   void initState() {
     widget.textEditingController.text = widget.text;
@@ -45,12 +50,11 @@ class _NameFieldState extends ConsumerState<NameField> {
         controller: widget.textEditingController,
         cursorColor: ColorName.primary,
         autocorrect: false,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.emailAddress,
         style: textStyle,
-        textCapitalization: TextCapitalization.words,
         validator: (value) {
-          if (value == null || value == '') {
-            return 'Enter a valid name';
+          if (value != null) {
+            return isValidEmail(value) ? null : 'Enter a valid email';
           }
 
           return null;
@@ -80,7 +84,7 @@ class _NameFieldState extends ConsumerState<NameField> {
               color: ColorName.primary,
             ),
           ),
-          labelText: 'Name',
+          labelText: 'Email',
           labelStyle: labelStyle,
         ),
       ),

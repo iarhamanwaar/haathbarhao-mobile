@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:haathbarhao_mobile/screens/home/seeker_home_view.dart';
-import 'package:haathbarhao_mobile/screens/overview/overview_view.dart';
-import 'package:haathbarhao_mobile/screens/profile/profile_view.dart';
-import '../gen/assets.gen.dart';
-import '../providers/static_providers.dart';
-import '../widgets/nav_bar_item.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/doer_home/doer_home_view.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/overview/overview_view.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/profile/profile_view.dart';
+import 'package:haathbarhao_mobile/gen/assets.gen.dart';
+import 'package:haathbarhao_mobile/providers/static_providers.dart';
+import 'package:haathbarhao_mobile/widgets/nav_bar_item.dart';
 
-final GlobalKey<ScaffoldState> bottomNavBarKey = GlobalKey();
+final GlobalKey<ScaffoldState> doerBottomNavBarKey = GlobalKey();
 
-class BottomNavBar extends ConsumerStatefulWidget {
-  const BottomNavBar({super.key});
+class DoerBottomNavBar extends ConsumerStatefulWidget {
+  const DoerBottomNavBar({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _BottomNavBarState();
 }
 
-class _BottomNavBarState extends ConsumerState<BottomNavBar> {
+class _BottomNavBarState extends ConsumerState<DoerBottomNavBar> {
   final pages = [
-    const SeekerHomeView(),
-    const OverviewView(),
-    const ProfileView(),
+    const DoerHomeView(),
+    const SeekerOverviewView(),
+    const SeekerProfileView(),
   ];
 
   @override
   Widget build(BuildContext context) {
     final bottomNavBarSelectedIndex =
-        ref.watch(bottomNavBarSelectedIndexProvider);
+        ref.watch(doerBottomNavBarSelectedIndexProvider);
 
     return Scaffold(
-      key: bottomNavBarKey,
+      key: doerBottomNavBarKey,
       backgroundColor: const Color(0xFFF5F7FC),
       body: SafeArea(
         child: Column(

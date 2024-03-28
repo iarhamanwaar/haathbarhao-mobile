@@ -49,5 +49,15 @@
 		<true/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>This app needs access to your photos to upload a profile picture</string>
+        <key>NSCameraUsageDescription</key>
+        <string>This app needs access to your camera to take a profile picture</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>This app needs access to location to get your zipcode.</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>This app needs access to location to get your zipcode.</string>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>This app needs access to location to get your zipcode.</string>
 	</dict>
 </plist>

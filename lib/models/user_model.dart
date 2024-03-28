@@ -16,6 +16,8 @@ class User {
   final List<dynamic>? preferredCategories;
   final List<dynamic>? skills;
   final String? profilePicture;
+  final bool? isHelper;
+  final DateTime? dateOfBirth;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int? v;
@@ -28,6 +30,8 @@ class User {
     this.preferredCategories,
     this.skills,
     this.profilePicture,
+    this.isHelper,
+    this.dateOfBirth,
     this.createdAt,
     this.updatedAt,
     this.v,
@@ -45,6 +49,10 @@ class User {
             ? []
             : List<dynamic>.from(json["skills"]!.map((x) => x)),
         profilePicture: json["profilePicture"],
+        isHelper: json["isHelper"],
+        dateOfBirth: json["dateOfBirth"] == null
+            ? null
+            : DateTime.parse(json["dateOfBirth"]),
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
@@ -65,6 +73,8 @@ class User {
         "skills":
             skills == null ? [] : List<dynamic>.from(skills!.map((x) => x)),
         "profilePicture": profilePicture,
+        "isHelper": isHelper,
+        "dateOfBirth": dateOfBirth?.toIso8601String(),
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "__v": v,

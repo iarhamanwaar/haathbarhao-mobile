@@ -6,10 +6,14 @@ import '../../../../../gen/colors.gen.dart';
 class CustomTextField extends ConsumerStatefulWidget {
   final TextEditingController textEditingController;
   final String type;
+  final Widget? suffixIcon;
+  final Function()? onPressed;
 
   const CustomTextField({
     required this.textEditingController,
     this.type = 'Email',
+    this.suffixIcon,
+    this.onPressed,
     super.key,
   });
 
@@ -24,7 +28,7 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
       return null;
     };
 
-    if (widget.type == 'Name') {
+    if (widget.type == 'Name' || widget.type == 'Title') {
       validator = (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter a name';
@@ -66,41 +70,60 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
       };
     }
 
-    return TextFormField(
-      controller: widget.textEditingController,
-      style: GoogleFonts.spaceGrotesk(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: ColorName.primaryBlack,
-      ),
-      validator: validator,
-      enableSuggestions: false,
-      autocorrect: false,
-      keyboardType: widget.type == 'Email' ? TextInputType.emailAddress : null,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: const Color(0xFF929292).withOpacity(0.2),
-        hintText: widget.type,
-        hintStyle: GoogleFonts.spaceGrotesk(
+    return GestureDetector(
+      onTap: widget.onPressed,
+      child: TextFormField(
+        enabled: widget.onPressed != null ? false : true,
+        controller: widget.textEditingController,
+        style: GoogleFonts.spaceGrotesk(
           fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: ColorName.lightGrey,
+          color: ColorName.primaryBlack,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(100),
-          borderSide: const BorderSide(
-            color: ColorName.white,
+        validator: validator,
+        enableSuggestions: false,
+        autocorrect: false,
+        keyboardType:
+            widget.type == 'Email' ? TextInputType.emailAddress : null,
+        maxLines: widget.type == 'Description' ? 5 : null,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: const Color(0xFF929292).withOpacity(0.2),
+          hintText: widget.type,
+          hintStyle: GoogleFonts.spaceGrotesk(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: ColorName.lightGrey,
           ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(100),
-          borderSide: const BorderSide(
-            color: ColorName.white,
+          suffixIcon: widget.suffixIcon,
+          border: OutlineInputBorder(
+            borderRadius: widget.type == 'Description'
+                ? BorderRadius.circular(25)
+                : BorderRadius.circular(100),
+            borderSide: const BorderSide(
+              color: ColorName.white,
+            ),
           ),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 10,
+          disabledBorder: OutlineInputBorder(
+            borderRadius: widget.type == 'Description'
+                ? BorderRadius.circular(25)
+                : BorderRadius.circular(100),
+            borderSide: const BorderSide(
+              color: ColorName.white,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: widget.type == 'Description'
+                ? BorderRadius.circular(25)
+                : BorderRadius.circular(100),
+            borderSide: const BorderSide(
+              color: ColorName.white,
+            ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 10,
+          ),
         ),
       ),
     );

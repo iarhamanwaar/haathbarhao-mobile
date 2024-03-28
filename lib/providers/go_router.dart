@@ -1,12 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../screens/authentication/screens/get_started_view.dart';
-import '../screens/authentication/screens/login_view.dart';
-import '../screens/home/job_detail_view.dart';
-import '../screens/main_view.dart';
-import '../screens/profile/profile_view.dart';
+import 'package:haathbarhao_mobile/screens/authentication/screens/get_started_view.dart';
+import 'package:haathbarhao_mobile/screens/authentication/screens/login_view.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/become_helper_view.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/doer_home/job_detail_view.dart';
+import 'package:haathbarhao_mobile/screens/main_view.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/post_job/post_job_view.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/profile/profile_view.dart';
 
-enum AppRoute { main, register, login, jobDetailView, profile }
+enum AppRoute {
+  main,
+  register,
+  login,
+  jobDetailView,
+  profile,
+  postJobView,
+  becomeAHelper,
+}
 
 const Map<AppRoute, String> routeMap = {
   AppRoute.main: '/',
@@ -14,6 +24,8 @@ const Map<AppRoute, String> routeMap = {
   AppRoute.login: 'login',
   AppRoute.jobDetailView: 'jobDetailView',
   AppRoute.profile: 'profile',
+  AppRoute.postJobView: 'postJobView',
+  AppRoute.becomeAHelper: 'becomeAHelper',
 };
 
 final goRouterProvider = StateProvider<GoRouter>(
@@ -42,6 +54,25 @@ final goRouterProvider = StateProvider<GoRouter>(
               builder: (context, state) => const LoginView(),
             ),
 
+            // Post Job View
+            GoRoute(
+              path: routeMap[AppRoute.postJobView]!,
+              name: AppRoute.postJobView.name,
+              builder: (context, state) {
+                final image = state.uri.queryParameters['image'];
+                final title = state.uri.queryParameters['title'];
+                final description = state.uri.queryParameters['description'];
+                final category = state.uri.queryParameters['category'];
+
+                return PostJobView(
+                  image: image,
+                  title: title,
+                  description: description,
+                  category: category,
+                );
+              },
+            ),
+
             // Job Detail View
             GoRoute(
               path: routeMap[AppRoute.jobDetailView]!,
@@ -59,7 +90,14 @@ final goRouterProvider = StateProvider<GoRouter>(
             GoRoute(
               path: routeMap[AppRoute.profile]!,
               name: AppRoute.profile.name,
-              builder: (context, state) => const ProfileView(),
+              builder: (context, state) => const SeekerProfileView(),
+            ),
+
+            // Become a helper
+            GoRoute(
+              path: routeMap[AppRoute.becomeAHelper]!,
+              name: AppRoute.becomeAHelper.name,
+              builder: (context, state) => const BecomeHelperView(),
             ),
           ],
         ),

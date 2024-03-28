@@ -5,11 +5,15 @@ final sharedPreferenceProvider = FutureProvider(
   (ref) async => SharedPreferences.getInstance(),
 );
 
-final bottomNavBarSelectedIndexProvider = StateProvider<int>((ref) {
+final seekerBottomNavBarSelectedIndexProvider = StateProvider<int>((ref) {
   return 0;
 });
 
-final overviewTabSelectedIndexProvider = StateProvider<int>((ref) {
+final seekerOverviewTabSelectedIndexProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
+final doerBottomNavBarSelectedIndexProvider = StateProvider<int>((ref) {
   return 0;
 });
 

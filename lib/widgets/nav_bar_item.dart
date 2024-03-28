@@ -27,8 +27,9 @@ class NavBarItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     if (currentIndex == index) {
       return GestureDetector(
-        onTap: () =>
-            ref.read(bottomNavBarSelectedIndexProvider.notifier).state = index,
+        onTap: () => ref
+            .read(seekerBottomNavBarSelectedIndexProvider.notifier)
+            .state = index,
         child: Container(
           decoration: BoxDecoration(
             color: ColorName.primary.withOpacity(0.3),
@@ -65,8 +66,9 @@ class NavBarItem extends ConsumerWidget {
       );
     } else {
       return GestureDetector(
-        onTap: () =>
-            ref.read(bottomNavBarSelectedIndexProvider.notifier).state = index,
+        onTap: () => ref
+            .read(seekerBottomNavBarSelectedIndexProvider.notifier)
+            .state = index,
         child: SizedBox(
           height: 38,
           child: SvgPicture.asset(

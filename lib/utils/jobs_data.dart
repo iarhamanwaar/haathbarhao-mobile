@@ -109,7 +109,8 @@ final jobsData = [
         'Focused on creating engaging interfaces with well-thought-out behaviors...',
     'rolesAndResponsibilities':
         'Analyze user interface problems, create design solutions, present and implement designs...',
-    'benefits': 'Work from home, flexible schedule, skill development courses',
+    'benefits':
+        'Work from doer_home, flexible schedule, skill development courses',
     'applied': false,
     'createdAt': DateTime.now().toUtc().toIso8601String(),
     'expiry': DateTime.now()
@@ -148,7 +149,7 @@ final jobsData = [
         'Analyzing data to help drive informed business decisions, creating reports and visualizations...',
     'rolesAndResponsibilities':
         'Collect and analyze data, develop data models, prepare reports...',
-    'benefits': 'Work from home options, annual bonuses, health insurance',
+    'benefits': 'Work from doer_home options, annual bonuses, health insurance',
     'applied': true,
     'createdAt': DateTime.now().toUtc().toIso8601String(),
     'expiry': DateTime.now()

@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:haathbarhao_mobile/gen/colors.gen.dart';
+import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
 import 'package:haathbarhao_mobile/providers/static_providers.dart';
-import '../../gen/colors.gen.dart';
-import '../../gen/fonts.gen.dart';
 
 class OverviewTabBar extends ConsumerStatefulWidget {
   final String text;
@@ -28,7 +28,7 @@ class _OrdersTabBarState extends ConsumerState<OverviewTabBar> {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          ref.read(overviewTabSelectedIndexProvider.notifier).state =
+          ref.read(seekerOverviewTabSelectedIndexProvider.notifier).state =
               widget.index;
         },
         child: Container(

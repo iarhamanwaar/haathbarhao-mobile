@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:haathbarhao_mobile/screens/bottom_nav_bar.dart';
+import 'package:haathbarhao_mobile/providers/view_helper_provider.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/doer_bottom_nav_bar.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/seeker_bottom_nav_bar.dart';
 import '../providers/token_provider.dart';
 import 'authentication/screens/landing_view.dart';
 
@@ -17,7 +19,13 @@ class _MainViewState extends ConsumerState<MainView> {
     final token = ref.watch(tokenProvider);
 
     if (token != '') {
-      return const BottomNavBar();
+      final viewHelper = ref.watch(viewHelperProvider);
+
+      if (!viewHelper) {
+        return const SeekerBottomNavBar();
+      } else {
+        return const DoerBottomNavBar();
+      }
     } else {
       return const LandingView();
     }
