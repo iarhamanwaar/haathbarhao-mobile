@@ -134,7 +134,7 @@ class UserRepository {
 
   Future<User> patchUser({
     String? name,
-    String? email,
+    String? phone,
     String? password,
     String? profilePicture,
     DateTime? dateOfBirth,
@@ -142,7 +142,7 @@ class UserRepository {
     try {
       final body = jsonEncode({
         if (name != null) "name": name,
-        if (email != null) "email": email,
+        if (phone != null) "phone": phone,
         if (password != null) "password": password,
         if (profilePicture != null) "profilePicture": profilePicture,
         if (dateOfBirth != null) "dateOfBirth": dateOfBirth.toIso8601String(),

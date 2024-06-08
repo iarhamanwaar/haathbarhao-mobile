@@ -32,7 +32,7 @@ class SeekerProfileView extends ConsumerStatefulWidget {
 class _ProfileEditState extends ConsumerState<SeekerProfileView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   updateImage() async {
     try {
@@ -88,9 +88,15 @@ class _ProfileEditState extends ConsumerState<SeekerProfileView> {
           },
         );
 
+        String phoneNumber = phoneController.text.trim();
+
+        if (phoneNumber.startsWith('0')) {
+          phoneNumber = '+92${phoneNumber.substring(1)}';
+        }
+
         await userRepository.patchUser(
           name: nameController.text.trim(),
-          email: emailController.text.trim(),
+          phone: phoneNumber,
         );
 
         final user = ref.refresh(userProvider);
@@ -113,8 +119,9 @@ class _ProfileEditState extends ConsumerState<SeekerProfileView> {
 
   logout() {
     ref.read(tokenProvider.notifier).setToken('');
-    ref.read(seekerBottomNavBarSelectedIndexProvider.notifier).state = 0;
-    ref.read(doerBottomNavBarSelectedIndexProvider.notifier).state = 0;
+    ref.invalidate(userProvider);
+    ref.invalidate(seekerBottomNavBarSelectedIndexProvider);
+    ref.invalidate(doerBottomNavBarSelectedIndexProvider);
     if (context.mounted) context.goNamed(AppRoute.main.name);
   }
 
@@ -218,7 +225,7 @@ class _ProfileEditState extends ConsumerState<SeekerProfileView> {
                         height: 12,
                       ),
                       PhoneNumberField(
-                        textEditingController: emailController,
+                        textEditingController: phoneController,
                         text: data.phone ?? '',
                       ),
                       const SizedBox(

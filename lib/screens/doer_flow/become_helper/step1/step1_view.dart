@@ -94,7 +94,7 @@ class _Step1ViewState extends ConsumerState<Step1View> {
 
         await userRepository.patchUser(
           name: nameController.text.trim(),
-          email: phoneController.text.trim(),
+          phone: phoneController.text.trim(),
           dateOfBirth: format.parse(
             dobController.text,
           ),
