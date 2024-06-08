@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:haathbarhao_mobile/screens/authentication/screens/get_started_view.dart';
 import 'package:haathbarhao_mobile/screens/authentication/screens/login_view.dart';
+import 'package:haathbarhao_mobile/screens/authentication/screens/otp_view.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/become_helper_view.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/doer_home/job_detail_view.dart';
 import 'package:haathbarhao_mobile/screens/main_view.dart';
@@ -11,6 +12,7 @@ import 'package:haathbarhao_mobile/screens/seeker_flow/profile/profile_view.dart
 enum AppRoute {
   main,
   register,
+  otp,
   login,
   jobDetailView,
   profile,
@@ -21,6 +23,7 @@ enum AppRoute {
 const Map<AppRoute, String> routeMap = {
   AppRoute.main: '/',
   AppRoute.register: 'register',
+  AppRoute.otp: 'otp',
   AppRoute.login: 'login',
   AppRoute.jobDetailView: 'jobDetailView',
   AppRoute.profile: 'profile',
@@ -45,6 +48,17 @@ final goRouterProvider = StateProvider<GoRouter>(
               path: routeMap[AppRoute.register]!,
               name: AppRoute.register.name,
               builder: (context, state) => const GetStartedView(),
+            ),
+
+            // Register View
+            GoRoute(
+              path: routeMap[AppRoute.otp]!,
+              name: AppRoute.otp.name,
+              builder: (context, state) {
+                return OtpView(
+                  key: state.pageKey,
+                );
+              },
             ),
 
             // Login View

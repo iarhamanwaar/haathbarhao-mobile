@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "991357424790",
-    "project_id": "haathbarhao",
-    "storage_bucket": "haathbarhao.appspot.com"
+    "project_number": "155635122047",
+    "project_id": "haathbarhao-dev",
+    "storage_bucket": "haathbarhao-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:991357424790:android:de2607edbab677a56a9eb7",
+        "mobilesdk_app_id": "1:155635122047:android:9de661d7a5c842c381a44a",
         "android_client_info": {
           "package_name": "com.haathbarhao.app.haathbarhao_mobile"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDTBKkkUScpZ53ScV0zpvBYHNbhGHTvLxk"
+          "current_key": "AIzaSyBOGhJ59psbaGAH3cSdVAAbGoVasKx8UB4"
         }
       ],
       "services": {

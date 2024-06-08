@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../gen/colors.gen.dart';
@@ -36,20 +37,21 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
 
         return null;
       };
-    } else if (widget.type == 'Email') {
+    } else if (widget.type == 'Phone') {
       validator = (value) {
         // Check if this field is empty
         if (value == null || value.isEmpty) {
-          return 'Please enter your email';
+          return 'Please enter your phone number';
         }
-        final bool emailValid = RegExp(
-                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(value);
-        // using regular expression
-        if (!emailValid) {
-          return "Please enter a valid email address";
+
+        // Regular expression to validate Pakistani phone number
+        final bool phoneValid =
+            RegExp(r'^(?:\+92|0)?3[0-9]{9}$').hasMatch(value);
+
+        if (!phoneValid) {
+          return 'Please enter a valid Pakistani phone number';
         }
-        // the email is valid
+
         return null;
       };
     } else if (widget.type == 'Password') {
@@ -64,6 +66,18 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
       validator = (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter a role';
+        }
+
+        return null;
+      };
+    } else if (widget.type == 'OTP') {
+      validator = (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter an otp';
+        }
+
+        if (value.length != 6) {
+          return 'OTP must be 6 digits';
         }
 
         return null;
@@ -83,9 +97,16 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
         validator: validator,
         enableSuggestions: false,
         autocorrect: false,
-        keyboardType:
-            widget.type == 'Email' ? TextInputType.emailAddress : null,
-        maxLines: widget.type == 'Description' ? 5 : null,
+        keyboardType: widget.type == 'Phone' || widget.type == 'OTP'
+            ? TextInputType.number
+            : null,
+        maxLines: widget.type == 'Description' ? 5 : 1,
+        inputFormatters: widget.type == 'OTP'
+            ? <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(6),
+              ]
+            : null,
         decoration: InputDecoration(
           filled: true,
           fillColor: const Color(0xFF929292).withOpacity(0.2),

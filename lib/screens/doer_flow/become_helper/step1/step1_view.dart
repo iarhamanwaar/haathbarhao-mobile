@@ -11,7 +11,7 @@ import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
 import 'package:haathbarhao_mobile/providers/future_providers.dart';
 import 'package:haathbarhao_mobile/providers/user_repo_provider.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/step1/dob_field.dart';
-import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/step1/email_field.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/step1/phone_number_field.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/step1/name_field.dart';
 import 'package:haathbarhao_mobile/widgets/loading_animation.dart';
 import 'package:haathbarhao_mobile/widgets/primary_button.dart';
@@ -33,7 +33,7 @@ class Step1View extends ConsumerStatefulWidget {
 class _Step1ViewState extends ConsumerState<Step1View> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
 
   updateImage() async {
@@ -94,7 +94,7 @@ class _Step1ViewState extends ConsumerState<Step1View> {
 
         await userRepository.patchUser(
           name: nameController.text.trim(),
-          email: emailController.text.trim(),
+          email: phoneController.text.trim(),
           dateOfBirth: format.parse(
             dobController.text,
           ),
@@ -198,9 +198,9 @@ class _Step1ViewState extends ConsumerState<Step1View> {
                     const SizedBox(
                       height: 12,
                     ),
-                    EmailField(
-                      textEditingController: emailController,
-                      text: data.email ?? '',
+                    PhoneNumberField(
+                      textEditingController: phoneController,
+                      text: data.phone ?? '',
                     ),
                     const SizedBox(
                       height: 12,

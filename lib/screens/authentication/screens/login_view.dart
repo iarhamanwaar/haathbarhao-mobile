@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
 import 'package:haathbarhao_mobile/providers/go_router.dart';
+import 'package:haathbarhao_mobile/providers/token_provider.dart';
 import '../../../../gen/fonts.gen.dart';
 import '../../../../providers/user_repo_provider.dart';
 import '../../../../widgets/primary_button.dart';
@@ -21,7 +22,7 @@ class LoginView extends ConsumerStatefulWidget {
 
 class _LoginViewState extends ConsumerState<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isLoading = false;
 
@@ -32,10 +33,17 @@ class _LoginViewState extends ConsumerState<LoginView> {
           isLoading = true;
         });
 
+        ref.invalidate(tokenProvider);
+
+        String phoneNumber = _phoneController.text.trim();
+        if (phoneNumber.startsWith('0')) {
+          phoneNumber = '+92${phoneNumber.substring(1)}';
+        }
+
         final userRepository = ref.read(userRepositoryProvider);
 
         await userRepository.loginWithEmail(
-          email: _emailController.text.trim(),
+          phone: phoneNumber,
           password: _passwordController.text,
         );
 
@@ -63,7 +71,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
   void dispose() {
     super.dispose();
 
-    _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
   }
 
@@ -110,8 +118,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   ),
                   const SizedBox(height: 40),
                   CustomTextField(
-                    type: 'Email',
-                    textEditingController: _emailController,
+                    type: 'Phone',
+                    textEditingController: _phoneController,
                   ),
                   const SizedBox(height: 12),
                   CustomTextField(

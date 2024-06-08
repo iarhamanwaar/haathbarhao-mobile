@@ -17,7 +17,7 @@ import 'package:haathbarhao_mobile/utils/constants.dart';
 import 'package:haathbarhao_mobile/widgets/loading_animation.dart';
 import 'package:haathbarhao_mobile/widgets/primary_button.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:haathbarhao_mobile/screens/seeker_flow/profile/email_field.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/profile/phone_number_field.dart';
 import 'package:haathbarhao_mobile/screens/seeker_flow/profile/name_field.dart';
 
 class SeekerProfileView extends ConsumerStatefulWidget {
@@ -217,9 +217,9 @@ class _ProfileEditState extends ConsumerState<SeekerProfileView> {
                       const SizedBox(
                         height: 12,
                       ),
-                      EmailField(
+                      PhoneNumberField(
                         textEditingController: emailController,
-                        text: data.email ?? '',
+                        text: data.phone ?? '',
                       ),
                       const SizedBox(
                         height: 12,

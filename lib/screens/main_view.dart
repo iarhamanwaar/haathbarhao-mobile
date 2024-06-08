@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:haathbarhao_mobile/providers/view_helper_provider.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/doer_bottom_nav_bar.dart';
 import 'package:haathbarhao_mobile/screens/seeker_flow/seeker_bottom_nav_bar.dart';
-import '../providers/token_provider.dart';
-import 'authentication/screens/landing_view.dart';
+import 'package:haathbarhao_mobile/providers/token_provider.dart';
+import 'package:haathbarhao_mobile/screens/authentication/screens/landing_view.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({super.key});

@@ -19,12 +19,12 @@ class UserRepository {
   UserRepository(this.apiService, this.ref);
 
   Future<User> loginWithEmail({
-    required String email,
+    required String phone,
     required String password,
   }) async {
     try {
       final body = jsonEncode({
-        "email": email,
+        "phone": phone,
         "password": password,
       });
 
@@ -55,14 +55,14 @@ class UserRepository {
   Future<User> signupWithEmail({
     required String name,
     required String role,
-    required String email,
+    required String phone,
     required String password,
   }) async {
     try {
       final body = jsonEncode({
         "name": name,
         "role": role,
-        "email": email,
+        "phone": phone,
         "password": password,
       });
 
@@ -71,7 +71,7 @@ class UserRepository {
         body: body,
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         final user =
             userFromJson(jsonEncode(jsonDecode(response.data)['data']));
 

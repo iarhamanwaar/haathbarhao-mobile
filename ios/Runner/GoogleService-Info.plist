@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyA802eD47ozzXt3kPFotNUxcRx69Rdl8RU</string>
+	<string>AIzaSyAdRWb939TICORZ4hz_KjiUcJMZ9xfrJXs</string>
 	<key>GCM_SENDER_ID</key>
-	<string>991357424790</string>
+	<string>155635122047</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.haathbarhao.app.haathbarhaoMobile</string>
 	<key>PROJECT_ID</key>
-	<string>haathbarhao</string>
+	<string>haathbarhao-dev</string>
 	<key>STORAGE_BUCKET</key>
-	<string>haathbarhao.appspot.com</string>
+	<string>haathbarhao-dev.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:991357424790:ios:18a75c35a3cc950c6a9eb7</string>
+	<string>1:155635122047:ios:d7d7a210e7fb2da681a44a</string>
 </dict>
 </plist>

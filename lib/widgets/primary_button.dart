@@ -46,7 +46,9 @@ class _PrimaryButtonState extends ConsumerState<PrimaryButton> {
                 height: 20,
                 width: 20,
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: ColorName.white,
+                  ),
                 ),
               )
             : Text(

@@ -3,25 +3,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
 
-class EmailField extends ConsumerStatefulWidget {
+class PhoneNumberField extends ConsumerStatefulWidget {
   final TextEditingController textEditingController;
   final String text;
 
-  const EmailField({
+  const PhoneNumberField({
     required this.textEditingController,
     required this.text,
     super.key,
   });
 
   @override
-  ConsumerState createState() => _EmailFieldState();
+  ConsumerState createState() => _PhoneNumberFieldState();
 }
 
-class _EmailFieldState extends ConsumerState<EmailField> {
-  bool isValidEmail(String value) {
-    return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(value);
+class _PhoneNumberFieldState extends ConsumerState<PhoneNumberField> {
+  bool isValidPhoneNumber(String value) {
+    return RegExp(r'^(?:\+92|0)?3[0-9]{9}$').hasMatch(value);
   }
 
   @override
@@ -50,11 +48,13 @@ class _EmailFieldState extends ConsumerState<EmailField> {
         controller: widget.textEditingController,
         cursorColor: ColorName.primary,
         autocorrect: false,
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: TextInputType.phone,
         style: textStyle,
         validator: (value) {
           if (value != null) {
-            return isValidEmail(value) ? null : 'Enter a valid email';
+            return isValidPhoneNumber(value)
+                ? null
+                : 'Enter a valid phone number';
           }
 
           return null;
@@ -84,7 +84,7 @@ class _EmailFieldState extends ConsumerState<EmailField> {
               color: ColorName.primary,
             ),
           ),
-          labelText: 'Email',
+          labelText: 'Phone Number',
           labelStyle: labelStyle,
         ),
       ),

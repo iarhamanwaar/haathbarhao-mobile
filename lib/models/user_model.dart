@@ -12,7 +12,7 @@ class User {
   final String? id;
   final String? name;
   final String? role;
-  final String? email;
+  final String? phone;
   final List<dynamic>? preferredCategories;
   final List<dynamic>? skills;
   final String? profilePicture;
@@ -26,7 +26,7 @@ class User {
     this.id,
     this.name,
     this.role,
-    this.email,
+    this.phone,
     this.preferredCategories,
     this.skills,
     this.profilePicture,
@@ -41,7 +41,7 @@ class User {
         id: json["_id"],
         name: json["name"],
         role: json["role"],
-        email: json["email"],
+        phone: json["phone"],
         preferredCategories: json["preferredCategories"] == null
             ? []
             : List<dynamic>.from(json["preferredCategories"]!.map((x) => x)),
@@ -66,7 +66,7 @@ class User {
         "_id": id,
         "name": name,
         "role": role,
-        "email": email,
+        "phone": phone,
         "preferredCategories": preferredCategories == null
             ? []
             : List<dynamic>.from(preferredCategories!.map((x) => x)),
