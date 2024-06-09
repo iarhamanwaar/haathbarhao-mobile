@@ -5,16 +5,26 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../gen/colors.gen.dart';
 
 class CustomTextField extends ConsumerStatefulWidget {
-  final TextEditingController textEditingController;
+  final TextEditingController? textEditingController;
   final String type;
   final Widget? suffixIcon;
+  final Function(String value)? onChanged;
   final Function()? onPressed;
+  final String? initialValue;
+  final int? maxLines;
+  final String? hintText;
+  final bool showLoading;
 
   const CustomTextField({
-    required this.textEditingController,
+    this.textEditingController,
+    this.initialValue,
     this.type = 'Email',
     this.suffixIcon,
+    this.onChanged,
     this.onPressed,
+    this.hintText,
+    this.maxLines = 1,
+    this.showLoading = false,
     super.key,
   });
 
@@ -87,6 +97,8 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
     return GestureDetector(
       onTap: widget.onPressed,
       child: TextFormField(
+        onChanged: widget.onChanged,
+        initialValue: widget.initialValue,
         enabled: widget.onPressed != null ? false : true,
         controller: widget.textEditingController,
         style: GoogleFonts.spaceGrotesk(
@@ -100,7 +112,7 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
         keyboardType: widget.type == 'Phone' || widget.type == 'OTP'
             ? TextInputType.number
             : null,
-        maxLines: widget.type == 'Description' ? 5 : 1,
+        maxLines: widget.maxLines,
         inputFormatters: widget.type == 'OTP'
             ? <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly,
@@ -110,13 +122,24 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
         decoration: InputDecoration(
           filled: true,
           fillColor: const Color(0xFF929292).withOpacity(0.2),
-          hintText: widget.type,
+          hintText: widget.hintText ?? widget.type,
           hintStyle: GoogleFonts.spaceGrotesk(
             fontSize: 16,
             fontWeight: FontWeight.w500,
             color: ColorName.lightGrey,
           ),
-          suffixIcon: widget.suffixIcon,
+          suffixIconConstraints: widget.showLoading
+              ? const BoxConstraints(
+                  maxHeight: 15,
+                  maxWidth: 35,
+                )
+              : null,
+          suffixIcon: widget.showLoading
+              ? const Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: CircularProgressIndicator(),
+                )
+              : widget.suffixIcon,
           border: OutlineInputBorder(
             borderRadius: widget.type == 'Description'
                 ? BorderRadius.circular(25)

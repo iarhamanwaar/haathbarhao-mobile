@@ -6,6 +6,7 @@ import '../gen/colors.gen.dart';
 
 class PrimaryButton extends ConsumerStatefulWidget {
   final Function()? onPressed;
+  final bool enabled;
   final String text;
   final bool invertColors;
   final bool isLoading;
@@ -15,6 +16,7 @@ class PrimaryButton extends ConsumerStatefulWidget {
   const PrimaryButton({
     this.onPressed,
     required this.text,
+    this.enabled = true,
     this.invertColors = false,
     this.isLoading = false,
     this.backgroundColor,
@@ -33,9 +35,10 @@ class _PrimaryButtonState extends ConsumerState<PrimaryButton> {
       height: 52,
       width: double.infinity,
       child: OutlinedButton(
-        onPressed: widget.onPressed,
+        onPressed: widget.enabled ? widget.onPressed : null,
         style: OutlinedButton.styleFrom(
           side: BorderSide.none,
+          disabledBackgroundColor: ColorName.grey,
           backgroundColor: widget.backgroundColor ??
               (widget.invertColors ? ColorName.primary : ColorName.white),
           shape: const StadiumBorder(),

@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
-import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/step1/step1_view.dart';
+import 'package:haathbarhao_mobile/providers/go_router.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/step1_view.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/step2_view.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/step3_view.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/submitted_view.dart';
 
 class BecomeHelperView extends ConsumerStatefulWidget {
-  const BecomeHelperView({super.key});
+  final int index;
+
+  const BecomeHelperView({
+    this.index = 0,
+    super.key,
+  });
 
   @override
   ConsumerState createState() => _BecomeHelperViewState();
@@ -42,6 +50,8 @@ class _BecomeHelperViewState extends ConsumerState<BecomeHelperView> {
   void initState() {
     super.initState();
 
+    pageIndex = widget.index;
+
     pageController = PageController(
       initialPage: pageIndex,
     );
@@ -55,6 +65,13 @@ class _BecomeHelperViewState extends ConsumerState<BecomeHelperView> {
       ),
       Step3View(
         nextOnPressed: nextOnPressed,
+      ),
+      SubmittedView(
+        backToHome: () {
+          context.goNamed(
+            AppRoute.main.name,
+          );
+        },
       ),
     ];
   }

@@ -6,7 +6,9 @@ import 'package:haathbarhao_mobile/screens/authentication/screens/otp_view.dart'
 import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/become_helper_view.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/doer_home/job_detail_view.dart';
 import 'package:haathbarhao_mobile/screens/main_view.dart';
-import 'package:haathbarhao_mobile/screens/seeker_flow/post_job/post_job_view.dart';
+import 'package:haathbarhao_mobile/screens/notifications/views/notification_view.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/post_job/views/match_found_view.dart';
+import 'package:haathbarhao_mobile/screens/seeker_flow/post_job/views/post_job_view.dart';
 import 'package:haathbarhao_mobile/screens/seeker_flow/profile/profile_view.dart';
 
 enum AppRoute {
@@ -17,7 +19,9 @@ enum AppRoute {
   jobDetailView,
   profile,
   postJobView,
+  matchFoundView,
   becomeAHelper,
+  notificationView
 }
 
 const Map<AppRoute, String> routeMap = {
@@ -28,7 +32,9 @@ const Map<AppRoute, String> routeMap = {
   AppRoute.jobDetailView: 'jobDetailView',
   AppRoute.profile: 'profile',
   AppRoute.postJobView: 'postJobView',
+  AppRoute.matchFoundView: 'matchFoundView/:id',
   AppRoute.becomeAHelper: 'becomeAHelper',
+  AppRoute.notificationView: 'notificationView'
 };
 
 final goRouterProvider = StateProvider<GoRouter>(
@@ -73,17 +79,38 @@ final goRouterProvider = StateProvider<GoRouter>(
               path: routeMap[AppRoute.postJobView]!,
               name: AppRoute.postJobView.name,
               builder: (context, state) {
-                final image = state.uri.queryParameters['image'];
-                final title = state.uri.queryParameters['title'];
-                final description = state.uri.queryParameters['description'];
-                final category = state.uri.queryParameters['category'];
+                // final image = state.uri.queryParameters['image'];
+                // final title = state.uri.queryParameters['title'];
+                // final description = state.uri.queryParameters['description'];
+                // final category = state.uri.queryParameters['category'];
 
-                return PostJobView(
-                  image: image,
-                  title: title,
-                  description: description,
-                  category: category,
+                return const PostJobView(
+                    // image: image,
+                    // title: title,
+                    // description: description,
+                    // category: category,
+                    );
+              },
+            ),
+
+            // Match Found View
+            GoRoute(
+              path: routeMap[AppRoute.matchFoundView]!,
+              name: AppRoute.matchFoundView.name,
+              builder: (context, state) {
+                final id = state.pathParameters["id"] ?? '';
+                return MatchFoundView(
+                  id: id,
                 );
+              },
+            ),
+
+            // Notification View
+            GoRoute(
+              path: routeMap[AppRoute.notificationView]!,
+              name: AppRoute.notificationView.name,
+              builder: (context, state) {
+                return const NotificationView();
               },
             ),
 
@@ -111,7 +138,13 @@ final goRouterProvider = StateProvider<GoRouter>(
             GoRoute(
               path: routeMap[AppRoute.becomeAHelper]!,
               name: AppRoute.becomeAHelper.name,
-              builder: (context, state) => const BecomeHelperView(),
+              builder: (context, state) {
+                final index =
+                    int.parse(state.uri.queryParameters['index'] ?? '0');
+                return BecomeHelperView(
+                  index: index,
+                );
+              },
             ),
           ],
         ),

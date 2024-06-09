@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
 import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
 import 'package:haathbarhao_mobile/providers/future_providers.dart';
+import 'package:haathbarhao_mobile/providers/go_router.dart';
 import 'package:haathbarhao_mobile/providers/static_providers.dart';
 import 'package:haathbarhao_mobile/screens/seeker_flow/overview/overview_tab_bar.dart';
 import 'package:haathbarhao_mobile/screens/seeker_flow/overview/overview_card.dart';
@@ -49,7 +51,11 @@ class _OverviewViewState extends ConsumerState<SeekerOverviewView> {
                 right: 20,
               ),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(
+                    AppRoute.notificationView.name,
+                  );
+                },
                 icon: const Icon(
                   Icons.notifications_rounded,
                   color: ColorName.primaryBlack,
@@ -100,16 +106,26 @@ class _OverviewViewState extends ConsumerState<SeekerOverviewView> {
               tasks.when(
                 data: (data) {
                   return Expanded(
-                    child: ListView.separated(
-                      itemCount: data.length,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      itemBuilder: (context, index) {
-                        return OverviewCard(task: data[index]);
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(height: 16);
-                      },
-                    ),
+                    child: data.isNotEmpty
+                        ? ListView.separated(
+                            itemCount: data.length,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            itemBuilder: (context, index) {
+                              return OverviewCard(task: data[index]);
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(height: 16);
+                            },
+                          )
+                        : const Center(
+                            child: Text(
+                              'No tasks yet, post a task to see information here.',
+                              style: TextStyle(
+                                fontFamily: FontFamily.clashDisplay,
+                                color: ColorName.primaryBlack,
+                              ),
+                            ),
+                          ),
                   );
                 },
                 error: (error, stackTrace) {

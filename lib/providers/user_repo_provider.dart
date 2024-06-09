@@ -138,6 +138,14 @@ class UserRepository {
     String? password,
     String? profilePicture,
     DateTime? dateOfBirth,
+    String? role,
+    List<Skill>? skills,
+    String? category,
+    String? location,
+    String? cnicFront,
+    String? cnicBack,
+    bool? isHelperSubmitted,
+    String? fcmToken,
   }) async {
     try {
       final body = jsonEncode({
@@ -146,6 +154,15 @@ class UserRepository {
         if (password != null) "password": password,
         if (profilePicture != null) "profilePicture": profilePicture,
         if (dateOfBirth != null) "dateOfBirth": dateOfBirth.toIso8601String(),
+        if (role != null) "role": role,
+        if (skills != null)
+          "skills": skills.map((skill) => skill.toJson()).toList(),
+        if (category != null) "preferredCategory": category,
+        if (location != null) "location": location,
+        if (cnicFront != null) "cnicFront": cnicFront,
+        if (cnicBack != null) "cnicBack": cnicBack,
+        if (isHelperSubmitted != null) "isHelperSubmitted": isHelperSubmitted,
+        if (fcmToken != null) "fcmToken": fcmToken,
       });
 
       final response = await apiService.put(
@@ -156,7 +173,6 @@ class UserRepository {
       if (response.statusCode == 200) {
         final user =
             userFromJson(jsonEncode(jsonDecode(response.data)['data']));
-
         return user;
       } else {
         log(jsonDecode(response.data)['message']);

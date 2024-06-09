@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:haathbarhao_mobile/providers/future_providers.dart';
 import 'package:haathbarhao_mobile/providers/go_router.dart';
+import 'package:haathbarhao_mobile/providers/user_provider.dart';
 import 'package:haathbarhao_mobile/providers/view_helper_provider.dart';
+import 'package:haathbarhao_mobile/widgets/loading_animation.dart';
 import 'package:haathbarhao_mobile/widgets/primary_button.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
 import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
@@ -58,6 +60,7 @@ class _SeekerHomeViewState extends ConsumerState<SeekerHomeView> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F7FC),
         appBar: AppBar(
+          surfaceTintColor: ColorName.transparentColor,
           backgroundColor: const Color(0xFFF5F7FC),
           title: const Padding(
             padding: EdgeInsets.only(left: 20),
@@ -80,7 +83,11 @@ class _SeekerHomeViewState extends ConsumerState<SeekerHomeView> {
                 right: 20,
               ),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(
+                    AppRoute.notificationView.name,
+                  );
+                },
                 icon: const Icon(
                   Icons.notifications_rounded,
                   color: ColorName.primaryBlack,
@@ -89,398 +96,404 @@ class _SeekerHomeViewState extends ConsumerState<SeekerHomeView> {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 27.5,
-            vertical: 16,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Consumer(
-                builder: (context, ref, child) {
-                  final userJobCounts = ref.watch(userJobCountsProvider);
+        body: Consumer(
+          builder: (context, ref, child) {
+            final userState = ref.watch(userProvider);
 
-                  return userJobCounts.when(
-                    data: (data) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 180,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFDA3C8A),
-                                borderRadius: BorderRadius.circular(32),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    data.jobsPosted!.toString(),
-                                    style: const TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 96,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                  const Text(
-                                    'Posted Jobs',
-                                    style: TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 180,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF253D73),
-                                borderRadius: BorderRadius.circular(32),
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    data.jobsHiredFor!.toString(),
-                                    style: const TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 96,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                  const Text(
-                                    'Hired',
-                                    style: TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    error: (error, stackTrace) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 180,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFDA3C8A),
-                                borderRadius: BorderRadius.circular(32),
-                              ),
-                              child: const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '0',
-                                    style: TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 96,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Posted Jobs',
-                                    style: TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 180,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF253D73),
-                                borderRadius: BorderRadius.circular(32),
-                              ),
-                              child: const Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '0',
-                                    style: TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 96,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Hired',
-                                    style: TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    loading: () {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 180,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFDA3C8A),
-                                borderRadius: BorderRadius.circular(32),
-                              ),
-                              child: const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '0',
-                                    style: TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 96,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Posted Jobs',
-                                    style: TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 180,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF253D73),
-                                borderRadius: BorderRadius.circular(32),
-                              ),
-                              child: const Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '0',
-                                    style: TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 96,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Hired',
-                                    style: TextStyle(
-                                      height: 0,
-                                      fontFamily: FontFamily.clashDisplay,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorName.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              const Text(
-                'Get a new task done',
-                style: TextStyle(
-                  height: 0,
-                  fontFamily: FontFamily.clashDisplay,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: ColorName.black,
+            if (userState.isLoading) {
+              return const LoadingAnimation();
+            }
+
+            final user = userState.user!;
+
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 27.5,
+                  vertical: 16,
                 ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              SizedBox(
-                height: 240,
-                child: ListView.separated(
-                  itemCount: genericTasks.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          context.goNamed(
-                            AppRoute.postJobView.name,
-                            queryParameters: {
-                              'image': genericTasks[index]['image'],
-                              'title': genericTasks[index]['title'],
-                              'description': genericTasks[index]['description'],
-                              'category': genericTasks[index]['category'],
-                            },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final userJobCounts = ref.watch(userJobCountsProvider);
+
+                        return userJobCounts.when(
+                          data: (data) {
+                            return Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 180,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFDA3C8A),
+                                      borderRadius: BorderRadius.circular(32),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          data.jobsPosted!.toString(),
+                                          style: const TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 96,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                        const Text(
+                                          'Posted Jobs',
+                                          style: TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 180,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF253D73),
+                                      borderRadius: BorderRadius.circular(32),
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          data.jobsHiredFor!.toString(),
+                                          style: const TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 96,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                        const Text(
+                                          'Hired',
+                                          style: TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                          error: (error, stackTrace) {
+                            return Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 180,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFDA3C8A),
+                                      borderRadius: BorderRadius.circular(32),
+                                    ),
+                                    child: const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          '0',
+                                          style: TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 96,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Posted Jobs',
+                                          style: TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 180,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF253D73),
+                                      borderRadius: BorderRadius.circular(32),
+                                    ),
+                                    child: const Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '0',
+                                          style: TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 96,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Hired',
+                                          style: TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                          loading: () {
+                            return Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 180,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFDA3C8A),
+                                      borderRadius: BorderRadius.circular(32),
+                                    ),
+                                    child: const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          '0',
+                                          style: TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 96,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Posted Jobs',
+                                          style: TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 180,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF253D73),
+                                      borderRadius: BorderRadius.circular(32),
+                                    ),
+                                    child: const Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '0',
+                                          style: TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 96,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Hired',
+                                          style: TextStyle(
+                                            height: 0,
+                                            fontFamily: FontFamily.clashDisplay,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorName.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Text(
+                      'Get a new task done',
+                      style: TextStyle(
+                        height: 0,
+                        fontFamily: FontFamily.clashDisplay,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: ColorName.black,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    SizedBox(
+                      height: 240,
+                      child: ListView.separated(
+                        itemCount: genericTasks.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                context.goNamed(
+                                  AppRoute.postJobView.name,
+                                  // queryParameters: {
+                                  //   'image': genericTasks[index]['image'],
+                                  //   'title': genericTasks[index]['title'],
+                                  //   'description': genericTasks[index]
+                                  //       ['description'],
+                                  //   'category': genericTasks[index]['category'],
+                                  // },
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorName.white,
+                                surfaceTintColor: ColorName.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                padding: EdgeInsets.zero,
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 162,
+                                    child: Image.network(
+                                      genericTasks[index]['image'],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        13.5, 12, 13.5, 21),
+                                    child: Text(
+                                      genericTasks[index]['title'],
+                                      style: const TextStyle(
+                                        height: 0,
+                                        fontFamily: FontFamily.clashDisplay,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: ColorName.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           );
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorName.white,
-                          surfaceTintColor: ColorName.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          padding: EdgeInsets.zero,
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 162,
-                              child: Image.network(
-                                genericTasks[index]['image'],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(13.5, 12, 13.5, 21),
-                              child: Text(
-                                genericTasks[index]['title'],
-                                style: const TextStyle(
-                                  height: 0,
-                                  fontFamily: FontFamily.clashDisplay,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: ColorName.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            width: 12,
+                          );
+                        },
                       ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(
-                      width: 12,
-                    );
-                  },
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    PrimaryButton(
+                      text: 'Post a new job',
+                      invertColors: true,
+                      onPressed: () {
+                        context.goNamed(
+                          AppRoute.postJobView.name,
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    PrimaryButton(
+                      onPressed: () {
+                        if (user.isHelper!) {
+                          ref.read(viewHelperProvider.notifier).setStatus(true);
+                        } else {
+                          context.goNamed(
+                            AppRoute.becomeAHelper.name,
+                            queryParameters: {
+                              'index': user.isHelperSubmitted! ? '3' : '0',
+                            },
+                          );
+                        }
+                      },
+                      text: user.isHelper!
+                          ? 'Switch to Helper'
+                          : 'Become a Helper',
+                      backgroundColor: ColorName.black,
+                      invertColors: true,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 24,
-              ),
-              PrimaryButton(
-                text: 'Post a new job',
-                invertColors: true,
-                onPressed: () {
-                  context.goNamed(
-                    AppRoute.postJobView.name,
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Consumer(
-                builder: (context, ref, child) {
-                  final user = ref.watch(userProvider);
-
-                  return user.when(
-                    data: (data) {
-                      return PrimaryButton(
-                        onPressed: () {
-                          if (data.isHelper!) {
-                            ref
-                                .read(viewHelperProvider.notifier)
-                                .setStatus(true);
-                          } else {
-                            context.goNamed(
-                              AppRoute.becomeAHelper.name,
-                            );
-                          }
-                        },
-                        text: data.isHelper!
-                            ? 'Switch to Helper'
-                            : 'Become a Helper',
-                        backgroundColor: ColorName.black,
-                        invertColors: true,
-                      );
-                    },
-                    error: (error, stackTrace) {
-                      return Container();
-                    },
-                    loading: () {
-                      return Container();
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

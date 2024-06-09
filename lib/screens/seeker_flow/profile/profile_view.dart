@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -8,10 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
 import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
-import 'package:haathbarhao_mobile/providers/future_providers.dart';
 import 'package:haathbarhao_mobile/providers/go_router.dart';
 import 'package:haathbarhao_mobile/providers/static_providers.dart';
 import 'package:haathbarhao_mobile/providers/token_provider.dart';
+import 'package:haathbarhao_mobile/providers/user_provider.dart';
 import 'package:haathbarhao_mobile/providers/user_repo_provider.dart';
 import 'package:haathbarhao_mobile/utils/constants.dart';
 import 'package:haathbarhao_mobile/widgets/loading_animation.dart';
@@ -21,9 +20,7 @@ import 'package:haathbarhao_mobile/screens/seeker_flow/profile/phone_number_fiel
 import 'package:haathbarhao_mobile/screens/seeker_flow/profile/name_field.dart';
 
 class SeekerProfileView extends ConsumerStatefulWidget {
-  const SeekerProfileView({
-    super.key,
-  });
+  const SeekerProfileView({super.key});
 
   @override
   ConsumerState createState() => _ProfileEditState();
@@ -53,7 +50,7 @@ class _ProfileEditState extends ConsumerState<SeekerProfileView> {
       if (pickedFile != null) {
         final File file = File(pickedFile.path);
 
-        final user = await ref.read(userProvider.future);
+        final user = ref.read(userProvider).user!;
 
         FirebaseStorage storage = FirebaseStorage.instance;
         String filePath = 'profilePics/${user.id}-${DateTime.now()}.png';
@@ -99,18 +96,12 @@ class _ProfileEditState extends ConsumerState<SeekerProfileView> {
           phone: phoneNumber,
         );
 
-        final user = ref.refresh(userProvider);
+        ref.read(userProvider.notifier).onLoad();
 
-        user.when(
-          loading: () {},
-          error: (err, stackTrace) {
-            if (context.mounted) context.pop();
-          },
-          data: (data) {
-            if (context.mounted) context.pop();
-            if (context.mounted) context.pop();
-          },
-        );
+        if (mounted) {
+          context.pop();
+          context.pop();
+        }
       }
     } catch (e) {
       if (mounted) context.pop();
@@ -137,8 +128,6 @@ class _ProfileEditState extends ConsumerState<SeekerProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider);
-
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FC),
       appBar: AppBar(
@@ -173,115 +162,114 @@ class _ProfileEditState extends ConsumerState<SeekerProfileView> {
           ),
         ],
       ),
-      body: user.when(
-        data: (data) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Column(
-                    children: [
-                      GestureDetector(
-                        onTap: updateImage,
+      body: Consumer(builder: (context, ref, child) {
+        final userState = ref.watch(userProvider);
+
+        if (userState.isLoading) {
+          return const LoadingAnimation();
+        }
+
+        final user = userState.user!;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const SizedBox(
+                  height: 24,
+                ),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: updateImage,
+                      child: Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
                         child: Container(
+                          height: 132,
+                          width: 132,
                           clipBehavior: Clip.antiAlias,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
+                            color: Colors.grey.shade300,
                           ),
-                          child: Container(
-                            height: 132,
-                            width: 132,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.grey.shade300,
-                            ),
-                            child: data.profilePicture != null
-                                ? Image.network(
-                                    data.profilePicture!,
-                                    fit: BoxFit.cover,
-                                  )
-                                : const Icon(
-                                    Icons.person,
-                                    size: 50,
-                                  ),
-                          ),
+                          child: user.profilePicture != null
+                              ? Image.network(
+                                  user.profilePicture!,
+                                  fit: BoxFit.cover,
+                                )
+                              : const Icon(
+                                  Icons.person,
+                                  size: 50,
+                                ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      NameField(
-                        textEditingController: nameController,
-                        text: data.name ?? '',
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      PhoneNumberField(
-                        textEditingController: phoneController,
-                        text: data.phone ?? '',
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      PrimaryButton(
-                        text: 'Save Changes',
-                        invertColors: true,
-                        onPressed: saveChanges,
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    height: 36,
-                    width: 93,
-                    child: PrimaryButton(
-                      onPressed: logout,
-                      text: 'Log Out',
-                      invertColors: true,
-                      backgroundColor: const Color(0xFFC2392C),
-                      fontSize: 16,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  SizedBox(
-                    height: 36,
-                    width: 163,
-                    child: PrimaryButton(
-                      onPressed: _sendEmail,
-                      text: 'Contact Support',
-                      invertColors: true,
-                      backgroundColor: ColorName.black,
-                      fontSize: 16,
+                    const SizedBox(
+                      height: 24,
                     ),
+                    NameField(
+                      textEditingController: nameController,
+                      text: user.name ?? '',
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    PhoneNumberField(
+                      textEditingController: phoneController,
+                      text: user.phone != null
+                          ? '0${user.phone!.substring(3)}'
+                          : '',
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    PrimaryButton(
+                      text: 'Save Changes',
+                      invertColors: true,
+                      onPressed: saveChanges,
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                SizedBox(
+                  height: 36,
+                  width: 93,
+                  child: PrimaryButton(
+                    onPressed: logout,
+                    text: 'Log Out',
+                    invertColors: true,
+                    backgroundColor: const Color(0xFFC2392C),
+                    fontSize: 16,
                   ),
-                  const SizedBox(
-                    height: 24,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                SizedBox(
+                  height: 36,
+                  width: 163,
+                  child: PrimaryButton(
+                    onPressed: _sendEmail,
+                    text: 'Contact Support',
+                    invertColors: true,
+                    backgroundColor: ColorName.black,
+                    fontSize: 16,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+              ],
             ),
-          );
-        },
-        error: (error, stackTrace) => Center(
-          child: Text(
-            error.toString(),
-            textScaler: TextScaler.noScaling,
           ),
-        ),
-        loading: () => const Center(
-          child: LoadingAnimation(),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

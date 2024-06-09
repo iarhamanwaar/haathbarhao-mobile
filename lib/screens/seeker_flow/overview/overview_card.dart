@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
 import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
 import 'package:haathbarhao_mobile/models/tasks_model.dart';
+import 'package:haathbarhao_mobile/providers/go_router.dart';
 import 'package:haathbarhao_mobile/widgets/secondary_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -88,7 +90,7 @@ class _OrderCardState extends ConsumerState<OverviewCard> {
               Container(
                 height: 65,
                 width: 65,
-                padding: const EdgeInsets.all(9),
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   color: ColorName.white,
                   borderRadius: BorderRadius.circular(21),
@@ -105,6 +107,7 @@ class _OrderCardState extends ConsumerState<OverviewCard> {
                     widget.task.photos != null && widget.task.photos!.isNotEmpty
                         ? CachedNetworkImage(
                             imageUrl: widget.task.photos!.first,
+                            fit: BoxFit.cover,
                           )
                         : null,
               ),
@@ -242,14 +245,25 @@ class _OrderCardState extends ConsumerState<OverviewCard> {
                 child: SizedBox(
                   height: 43,
                   child: SecondaryButton(
-                    text: widget.task.status == 'Open' ? 'Location' : 'Repost',
+                    text: widget.task.status == 'Open'
+                        ? 'See Applicants'
+                        : 'Repost',
                     textStyle: const TextStyle(
                       fontFamily: FontFamily.clashDisplay,
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: ColorName.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (widget.task.status == 'Open') {
+                        context.goNamed(
+                          AppRoute.matchFoundView.name,
+                          pathParameters: {
+                            "id": widget.task.id ?? '',
+                          },
+                        );
+                      }
+                    },
                   ),
                 ),
               ),

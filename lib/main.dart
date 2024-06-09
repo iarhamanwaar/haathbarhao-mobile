@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:haathbarhao_mobile/firebase_options.dart';
 import 'package:haathbarhao_mobile/providers/go_router.dart';
-import 'package:haathbarhao_mobile/utils/logger.dart';
 import 'package:haathbarhao_mobile/utils/theme_data.dart';
 
 Future<void> main() async {
@@ -32,9 +31,8 @@ Future<void> main() async {
   };
 
   runApp(
-    ProviderScope(
-      observers: [Logger()],
-      child: const App(),
+    const ProviderScope(
+      child: App(),
     ),
   );
 }

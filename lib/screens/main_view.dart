@@ -5,6 +5,7 @@ import 'package:haathbarhao_mobile/screens/doer_flow/doer_bottom_nav_bar.dart';
 import 'package:haathbarhao_mobile/screens/seeker_flow/seeker_bottom_nav_bar.dart';
 import 'package:haathbarhao_mobile/providers/token_provider.dart';
 import 'package:haathbarhao_mobile/screens/authentication/screens/landing_view.dart';
+import 'package:haathbarhao_mobile/services/fcm_config.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({super.key});
@@ -14,6 +15,12 @@ class MainView extends ConsumerStatefulWidget {
 }
 
 class _MainViewState extends ConsumerState<MainView> {
+  @override
+  void initState() {
+    FCMConfig.initializeFCM();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final token = ref.watch(tokenProvider);
