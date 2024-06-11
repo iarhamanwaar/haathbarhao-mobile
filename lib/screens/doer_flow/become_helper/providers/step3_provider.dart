@@ -41,7 +41,7 @@ class Step3Notifier extends StateNotifier<Step3State> {
     try {
       final imagePicker = ImagePicker();
       final pickedFile = await imagePicker.pickImage(
-        source: ImageSource.camera,
+        source: ImageSource.gallery,
         imageQuality: 50,
       );
 
@@ -61,7 +61,7 @@ class Step3Notifier extends StateNotifier<Step3State> {
     try {
       final imagePicker = ImagePicker();
       final pickedFile = await imagePicker.pickImage(
-        source: ImageSource.camera,
+        source: ImageSource.gallery,
         imageQuality: 50,
       );
 

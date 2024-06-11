@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:haathbarhao_mobile/screens/authentication/screens/get_started_view.dart';
 import 'package:haathbarhao_mobile/screens/authentication/screens/login_view.dart';
 import 'package:haathbarhao_mobile/screens/authentication/screens/otp_view.dart';
+import 'package:haathbarhao_mobile/screens/chat/chat_page.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/become_helper_view.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/doer_home/job_detail_view.dart';
 import 'package:haathbarhao_mobile/screens/main_view.dart';
@@ -21,7 +22,8 @@ enum AppRoute {
   postJobView,
   matchFoundView,
   becomeAHelper,
-  notificationView
+  notificationView,
+  chatPage,
 }
 
 const Map<AppRoute, String> routeMap = {
@@ -34,7 +36,8 @@ const Map<AppRoute, String> routeMap = {
   AppRoute.postJobView: 'postJobView',
   AppRoute.matchFoundView: 'matchFoundView/:id',
   AppRoute.becomeAHelper: 'becomeAHelper',
-  AppRoute.notificationView: 'notificationView'
+  AppRoute.notificationView: 'notificationView',
+  AppRoute.chatPage: 'chatPage',
 };
 
 final goRouterProvider = StateProvider<GoRouter>(
@@ -54,6 +57,11 @@ final goRouterProvider = StateProvider<GoRouter>(
               path: routeMap[AppRoute.register]!,
               name: AppRoute.register.name,
               builder: (context, state) => const GetStartedView(),
+            ),
+            GoRoute(
+              path: routeMap[AppRoute.chatPage]!,
+              name: AppRoute.chatPage.name,
+              builder: (context, state) => const ChatPage(),
             ),
 
             // Register View
