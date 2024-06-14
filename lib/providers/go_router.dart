@@ -24,7 +24,6 @@ enum AppRoute {
   becomeAHelper,
   notificationView,
   chatPage,
-  notificationView,
   hireView,
 }
 
@@ -40,7 +39,6 @@ const Map<AppRoute, String> routeMap = {
   AppRoute.becomeAHelper: 'becomeAHelper',
   AppRoute.notificationView: 'notificationView',
   AppRoute.hireView: 'hireView',
-  AppRoute.notificationView: 'notificationView',
   AppRoute.chatPage: 'chatPage',
 };
 

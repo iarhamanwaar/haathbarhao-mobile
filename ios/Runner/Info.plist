@@ -32,6 +32,14 @@
 				<string>app-1-155635122047-ios-d7d7a210e7fb2da681a44a</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>app-1-991357424790-ios-18a75c35a3cc950c6a9eb7</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>

@@ -200,7 +200,7 @@ class _OrderCardState extends ConsumerState<OverviewCard> {
                   height: 43,
                   child: SecondaryButton(
                     outlined: true,
-                    text: widget.task.status == 'Open' ? 'Cancel' : 'Rate',
+                    text: widget.task.status == 'Open' ? 'Chat' : 'Rate',
                     textStyle: const TextStyle(
                       fontFamily: FontFamily.clashDisplay,
                       fontSize: 15,
@@ -208,7 +208,11 @@ class _OrderCardState extends ConsumerState<OverviewCard> {
                       color: ColorName.black,
                     ),
                     onPressed: widget.task.status == 'Open'
-                        ? cancelOrder
+                        ? () {
+                            context.goNamed(
+                              AppRoute.chatPage.name,
+                            );
+                          }
                         : rateOnPressed,
                   ),
                 ),
@@ -228,15 +232,14 @@ class _OrderCardState extends ConsumerState<OverviewCard> {
                       color: ColorName.white,
                     ),
                     onPressed: () {
-                      context.goNamed(AppRoute.chatPage.name);
-                      // if (widget.task.status == 'Open') {
-                      //   context.goNamed(
-                      //     AppRoute.matchFoundView.name,
-                      //     pathParameters: {
-                      //       "id": widget.task.id ?? '',
-                      //     },
-                      //   );
-                      // }
+                      if (widget.task.status == 'Open') {
+                        context.goNamed(
+                          AppRoute.matchFoundView.name,
+                          pathParameters: {
+                            "id": widget.task.id ?? '',
+                          },
+                        );
+                      }
                     },
                   ),
                 ),
