@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBOGhJ59psbaGAH3cSdVAAbGoVasKx8UB4',
-    appId: '1:155635122047:android:9de661d7a5c842c381a44a',
-    messagingSenderId: '155635122047',
-    projectId: 'haathbarhao-dev',
-    storageBucket: 'haathbarhao-dev.appspot.com',
+    apiKey: 'AIzaSyDTBKkkUScpZ53ScV0zpvBYHNbhGHTvLxk',
+    appId: '1:991357424790:android:de2607edbab677a56a9eb7',
+    messagingSenderId: '991357424790',
+    projectId: 'haathbarhao',
+    storageBucket: 'haathbarhao.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAdRWb939TICORZ4hz_KjiUcJMZ9xfrJXs',
-    appId: '1:155635122047:ios:d7d7a210e7fb2da681a44a',
-    messagingSenderId: '155635122047',
-    projectId: 'haathbarhao-dev',
-    storageBucket: 'haathbarhao-dev.appspot.com',
+    apiKey: 'AIzaSyA802eD47ozzXt3kPFotNUxcRx69Rdl8RU',
+    appId: '1:991357424790:ios:18a75c35a3cc950c6a9eb7',
+    messagingSenderId: '991357424790',
+    projectId: 'haathbarhao',
+    storageBucket: 'haathbarhao.appspot.com',
     iosBundleId: 'com.haathbarhao.app.haathbarhaoMobile',
   );
+
 }

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:haathbarhao_mobile/screens/authentication/screens/get_started_view.dart';
 import 'package:haathbarhao_mobile/screens/authentication/screens/login_view.dart';
 import 'package:haathbarhao_mobile/screens/authentication/screens/otp_view.dart';
+import 'package:haathbarhao_mobile/screens/chat/chat_page.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/become_helper/become_helper_view.dart';
 import 'package:haathbarhao_mobile/screens/doer_flow/doer_home/job_detail_view.dart';
 import 'package:haathbarhao_mobile/screens/main_view.dart';
@@ -22,6 +23,8 @@ enum AppRoute {
   matchFoundView,
   becomeAHelper,
   notificationView,
+  chatPage,
+  notificationView,
   hireView,
 }
 
@@ -37,6 +40,8 @@ const Map<AppRoute, String> routeMap = {
   AppRoute.becomeAHelper: 'becomeAHelper',
   AppRoute.notificationView: 'notificationView',
   AppRoute.hireView: 'hireView',
+  AppRoute.notificationView: 'notificationView',
+  AppRoute.chatPage: 'chatPage',
 };
 
 final goRouterProvider = StateProvider<GoRouter>(
@@ -56,6 +61,11 @@ final goRouterProvider = StateProvider<GoRouter>(
               path: routeMap[AppRoute.register]!,
               name: AppRoute.register.name,
               builder: (context, state) => const GetStartedView(),
+            ),
+            GoRoute(
+              path: routeMap[AppRoute.chatPage]!,
+              name: AppRoute.chatPage.name,
+              builder: (context, state) => const ChatPage(),
             ),
 
             // Register View
@@ -81,7 +91,17 @@ final goRouterProvider = StateProvider<GoRouter>(
               path: routeMap[AppRoute.postJobView]!,
               name: AppRoute.postJobView.name,
               builder: (context, state) {
-                return const PostJobView();
+                // final image = state.uri.queryParameters['image'];
+                // final title = state.uri.queryParameters['title'];
+                // final description = state.uri.queryParameters['description'];
+                // final category = state.uri.queryParameters['category'];
+
+                return const PostJobView(
+                    // image: image,
+                    // title: title,
+                    // description: description,
+                    // category: category,
+                    );
               },
             ),
 

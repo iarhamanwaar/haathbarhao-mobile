@@ -228,14 +228,15 @@ class _OrderCardState extends ConsumerState<OverviewCard> {
                       color: ColorName.white,
                     ),
                     onPressed: () {
-                      if (widget.task.status == 'Open') {
-                        context.goNamed(
-                          AppRoute.matchFoundView.name,
-                          pathParameters: {
-                            "id": widget.task.id ?? '',
-                          },
-                        );
-                      }
+                      context.goNamed(AppRoute.chatPage.name);
+                      // if (widget.task.status == 'Open') {
+                      //   context.goNamed(
+                      //     AppRoute.matchFoundView.name,
+                      //     pathParameters: {
+                      //       "id": widget.task.id ?? '',
+                      //     },
+                      //   );
+                      // }
                     },
                   ),
                 ),
