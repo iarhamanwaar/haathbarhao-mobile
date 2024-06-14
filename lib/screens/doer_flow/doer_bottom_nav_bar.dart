@@ -48,6 +48,11 @@ class _BottomNavBarState extends ConsumerState<DoerBottomNavBar> {
                     iconOutlined: Assets.icons.homeOutlined,
                     iconFilled: Assets.icons.homeOutlined,
                     label: 'Home',
+                    onTap: () {
+                      ref
+                          .read(doerBottomNavBarSelectedIndexProvider.notifier)
+                          .state = 0;
+                    },
                   ),
                   NavBarItem(
                     currentIndex: bottomNavBarSelectedIndex,
@@ -55,6 +60,11 @@ class _BottomNavBarState extends ConsumerState<DoerBottomNavBar> {
                     iconOutlined: Assets.icons.overviewOutlined,
                     iconFilled: Assets.icons.overviewOutlined,
                     label: 'Overview',
+                    onTap: () {
+                      ref
+                          .read(doerBottomNavBarSelectedIndexProvider.notifier)
+                          .state = 1;
+                    },
                   ),
                   NavBarItem(
                     currentIndex: bottomNavBarSelectedIndex,
@@ -62,6 +72,11 @@ class _BottomNavBarState extends ConsumerState<DoerBottomNavBar> {
                     iconOutlined: Assets.icons.profileOutlined,
                     iconFilled: Assets.icons.profileOutlined,
                     label: 'Profile',
+                    onTap: () {
+                      ref
+                          .read(doerBottomNavBarSelectedIndexProvider.notifier)
+                          .state = 2;
+                    },
                   ),
                 ],
               ),

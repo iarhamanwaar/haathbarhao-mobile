@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +7,10 @@ import 'package:haathbarhao_mobile/gen/assets.gen.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
 import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
 import 'package:haathbarhao_mobile/providers/go_router.dart';
-import 'package:haathbarhao_mobile/utils/jobs_data.dart';
+import 'package:haathbarhao_mobile/providers/user_provider.dart';
+import 'package:haathbarhao_mobile/providers/view_helper_provider.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/doer_home/doer_home_provider.dart';
+import 'package:haathbarhao_mobile/widgets/primary_button.dart';
 
 class DoerHomeView extends ConsumerStatefulWidget {
   const DoerHomeView({super.key});
@@ -22,7 +23,25 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(
+      () => ref.read(taskNotifierProvider.notifier).fetchTasks(),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final tasks = ref.watch(taskNotifierProvider);
+
+    void onSearchChanged() {
+      ref
+          .read(taskNotifierProvider.notifier)
+          .filterTasks(_searchController.text);
+    }
+
+    _searchController.addListener(onSearchChanged);
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -49,25 +68,41 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
                 bottom: 8,
               ),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(
+                    AppRoute.notificationView.name,
+                  );
+                },
                 icon: const Icon(
                   Icons.notifications_rounded,
                   color: ColorName.primaryBlack,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                right: 20,
-              ),
-              child: IconButton(
-                onPressed: () => context.goNamed(AppRoute.profile.name),
-                icon: CircleAvatar(
-                  backgroundImage: AssetImage(
-                    Assets.images.userImage.path,
+            Consumer(
+              builder: (context, ref, child) {
+                final userState = ref.watch(userProvider);
+
+                if (userState.isLoading) {
+                  return const SizedBox.shrink();
+                }
+
+                final user = userState.user!;
+
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    right: 20,
                   ),
-                ),
-              ),
+                  child: IconButton(
+                    onPressed: () => context.goNamed(AppRoute.profile.name),
+                    icon: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        user.profilePicture!,
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -123,7 +158,7 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
               Row(
                 children: [
                   Text(
-                    '${jobsData.length} JOBS FOUND',
+                    '${tasks.length} JOBS FOUND',
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
@@ -154,8 +189,9 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
               Expanded(
                 child: ListView.separated(
                   shrinkWrap: true,
-                  itemCount: jobsData.length,
+                  itemCount: tasks.length,
                   itemBuilder: (context, index) {
+                    final task = tasks[index];
                     return ElevatedButton(
                       onPressed: () => context.goNamed(
                         AppRoute.jobDetailView.name,
@@ -187,8 +223,11 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 clipBehavior: Clip.antiAlias,
-                                child: Image.asset(
-                                  jobsData[index]['logo']!.toString(),
+                                child: Image.network(
+                                  task.photos != null && task.photos!.isNotEmpty
+                                      ? task.photos!.first
+                                      : 'path_to_default_image',
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -198,7 +237,7 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      jobsData[index]['title']!.toString(),
+                                      task.title ?? '',
                                       style: GoogleFonts.poppins(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
@@ -206,7 +245,7 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
                                       ),
                                     ),
                                     Text(
-                                      jobsData[index]['company']!.toString(),
+                                      task.location ?? '',
                                       style: GoogleFonts.poppins(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
@@ -218,8 +257,7 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
                                 ),
                               ),
                               const SizedBox(width: 10),
-                              if (bool.parse(
-                                  jobsData[index]['applied']!.toString()))
+                              if (task.status == 'applied')
                                 Container(
                                   decoration: const BoxDecoration(
                                     color: Color(0xFF07864B),
@@ -245,9 +283,8 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
                                     ],
                                   ),
                                 ),
-                              if (DateTime.parse(
-                                      jobsData[index]['expiry']!.toString())
-                                  .isAfter(DateTime.now()
+                              if (task.date != null &&
+                                  task.date!.isAfter(DateTime.now()
                                       .subtract(const Duration(days: 10))))
                                 Container(
                                   decoration: const BoxDecoration(
@@ -281,7 +318,7 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  jobsData[index]['jobNature']!.toString(),
+                                  task.category ?? '',
                                   style: GoogleFonts.poppins(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
@@ -293,7 +330,7 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
                               const SizedBox(width: 20),
                               Expanded(
                                 child: Text(
-                                  jobsData[index]['jobLocation']!.toString(),
+                                  task.location ?? '',
                                   style: GoogleFonts.poppins(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
@@ -306,7 +343,7 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
                               Expanded(
                                 flex: 2,
                                 child: Text(
-                                  jobsData[index]['salary']!.toString(),
+                                  '${task.description}',
                                   style: GoogleFonts.poppins(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -326,6 +363,20 @@ class _HomeViewState extends ConsumerState<DoerHomeView> {
                     return const SizedBox(height: 12);
                   },
                 ),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              PrimaryButton(
+                onPressed: () {
+                  ref.read(viewHelperProvider.notifier).setStatus(false);
+                  context.goNamed(
+                    AppRoute.main.name,
+                  );
+                },
+                text: 'Switch to Seeker',
+                backgroundColor: ColorName.black,
+                invertColors: true,
               ),
             ],
           ),

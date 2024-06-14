@@ -23,33 +23,6 @@ class OverviewCard extends ConsumerStatefulWidget {
 }
 
 class _OrderCardState extends ConsumerState<OverviewCard> {
-  // reOrderOnPressed() async {
-  //   FocusManager.instance.primaryFocus?.unfocus();
-  //   HapticFeedback.selectionClick();
-  //   final loading = ref.watch(loadingProvider.notifier);
-  //
-  //   try {
-  //     final cartRepository = ref.read(cartRepositoryProvider);
-  //
-  //     loading.state = true;
-  //
-  //     final int branchId = await cartRepository.reOrder(
-  //       orderId: widget.order.id!,
-  //     );
-  //
-  //     ref.read(branchIdProvider.notifier).state = branchId;
-  //
-  //     ref.invalidate(cartProvider);
-  //
-  //     loading.state = false;
-  //
-  //     if (mounted) context.goNamed(AppRoute.cart.name);
-  //   } catch (e) {
-  //     log(e.toString());
-  //     loading.state = false;
-  //   }
-  // }
-
   cancelOrder() async {
     final url = Uri.parse(
         'https://wa.me/923237399596?text=I%20need%20help%20canceling%20my%20task.');

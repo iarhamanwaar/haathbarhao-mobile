@@ -94,4 +94,43 @@ class TaskRepository {
       throw jsonDecode(e.toString());
     }
   }
+
+  Future<List<Task>> getJobs() async {
+    try {
+      final response = await apiService.post(
+        endpoint: '/api/tasks/jobs',
+      );
+
+      if (response.statusCode == 200) {
+        final jobs = (jsonDecode(response.data)['data'] as List)
+            .map((job) => Task.fromJson(job))
+            .toList();
+        return jobs;
+      } else {
+        log(jsonDecode(response.data)['message']);
+        throw jsonDecode(response.data)['message'];
+      }
+    } catch (e) {
+      log(e.toString());
+      throw jsonDecode(e.toString());
+    }
+  }
+
+  Future<void> applyForTask(String taskId) async {
+    try {
+      final response = await apiService.post(
+        endpoint: '/api/tasks/$taskId/apply',
+      );
+
+      if (response.statusCode == 200) {
+        log('Applied successfully');
+      } else {
+        log(jsonDecode(response.data)['message']);
+        throw jsonDecode(response.data)['message'];
+      }
+    } catch (e) {
+      log(e.toString());
+      throw jsonDecode(e.toString());
+    }
+  }
 }

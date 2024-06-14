@@ -474,6 +474,9 @@ class _SeekerHomeViewState extends ConsumerState<SeekerHomeView> {
                       onPressed: () {
                         if (user.isHelper!) {
                           ref.read(viewHelperProvider.notifier).setStatus(true);
+                          context.goNamed(
+                            AppRoute.main.name,
+                          );
                         } else {
                           context.goNamed(
                             AppRoute.becomeAHelper.name,

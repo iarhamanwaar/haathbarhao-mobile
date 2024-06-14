@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
 import 'package:haathbarhao_mobile/gen/fonts.gen.dart';
 import 'package:haathbarhao_mobile/screens/seeker_flow/post_job/providers/match_found_provider.dart';
@@ -85,7 +86,9 @@ class MatchFoundView extends ConsumerWidget {
                   ),
                   PrimaryButton(
                     text: 'Wait for applicants',
-                    onPressed: () {},
+                    onPressed: () {
+                      context.pop();
+                    },
                     invertColors: true,
                   ),
                   const SizedBox(height: 20),

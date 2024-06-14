@@ -10,6 +10,7 @@ import 'package:haathbarhao_mobile/providers/future_providers.dart';
 import 'package:haathbarhao_mobile/providers/tasks_repo_provider.dart';
 import 'package:haathbarhao_mobile/providers/user_provider.dart';
 import 'package:haathbarhao_mobile/providers/user_repo_provider.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/doer_home/doer_home_provider.dart';
 import 'package:haathbarhao_mobile/utils/get_latlng_from_location.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
@@ -140,6 +141,7 @@ class PostJobNotifier extends StateNotifier<PostJobState> {
         );
 
         ref.invalidate(tasksProvider);
+        ref.invalidate(taskNotifierProvider);
 
         setLoading(false);
         if (context.mounted) {

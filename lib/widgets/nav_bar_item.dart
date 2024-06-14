@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../gen/colors.gen.dart';
-import '../providers/static_providers.dart';
 
 class NavBarItem extends ConsumerWidget {
   final int currentIndex;
@@ -13,6 +12,7 @@ class NavBarItem extends ConsumerWidget {
   final String iconOutlined;
   final String iconFilled;
   final String label;
+  final Function()? onTap;
 
   const NavBarItem({
     required this.currentIndex,
@@ -20,6 +20,7 @@ class NavBarItem extends ConsumerWidget {
     required this.iconOutlined,
     required this.iconFilled,
     required this.label,
+    this.onTap,
     super.key,
   });
 
@@ -27,9 +28,7 @@ class NavBarItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     if (currentIndex == index) {
       return GestureDetector(
-        onTap: () => ref
-            .read(seekerBottomNavBarSelectedIndexProvider.notifier)
-            .state = index,
+        onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
             color: ColorName.primary.withOpacity(0.3),
@@ -66,9 +65,7 @@ class NavBarItem extends ConsumerWidget {
       );
     } else {
       return GestureDetector(
-        onTap: () => ref
-            .read(seekerBottomNavBarSelectedIndexProvider.notifier)
-            .state = index,
+        onTap: onTap,
         child: SizedBox(
           height: 38,
           child: SvgPicture.asset(

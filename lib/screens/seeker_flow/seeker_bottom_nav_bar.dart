@@ -48,6 +48,12 @@ class _BottomNavBarState extends ConsumerState<SeekerBottomNavBar> {
                     iconOutlined: Assets.icons.homeOutlined,
                     iconFilled: Assets.icons.homeOutlined,
                     label: 'Home',
+                    onTap: () {
+                      ref
+                          .read(
+                              seekerBottomNavBarSelectedIndexProvider.notifier)
+                          .state = 0;
+                    },
                   ),
                   NavBarItem(
                     currentIndex: bottomNavBarSelectedIndex,
@@ -55,6 +61,12 @@ class _BottomNavBarState extends ConsumerState<SeekerBottomNavBar> {
                     iconOutlined: Assets.icons.overviewOutlined,
                     iconFilled: Assets.icons.overviewOutlined,
                     label: 'Overview',
+                    onTap: () {
+                      ref
+                          .read(
+                              seekerBottomNavBarSelectedIndexProvider.notifier)
+                          .state = 1;
+                    },
                   ),
                   NavBarItem(
                     currentIndex: bottomNavBarSelectedIndex,
@@ -62,6 +74,12 @@ class _BottomNavBarState extends ConsumerState<SeekerBottomNavBar> {
                     iconOutlined: Assets.icons.profileOutlined,
                     iconFilled: Assets.icons.profileOutlined,
                     label: 'Profile',
+                    onTap: () {
+                      ref
+                          .read(
+                              seekerBottomNavBarSelectedIndexProvider.notifier)
+                          .state = 2;
+                    },
                   ),
                 ],
               ),

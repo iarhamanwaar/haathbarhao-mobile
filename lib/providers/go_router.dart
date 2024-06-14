@@ -21,7 +21,8 @@ enum AppRoute {
   postJobView,
   matchFoundView,
   becomeAHelper,
-  notificationView
+  notificationView,
+  hireView,
 }
 
 const Map<AppRoute, String> routeMap = {
@@ -34,7 +35,8 @@ const Map<AppRoute, String> routeMap = {
   AppRoute.postJobView: 'postJobView',
   AppRoute.matchFoundView: 'matchFoundView/:id',
   AppRoute.becomeAHelper: 'becomeAHelper',
-  AppRoute.notificationView: 'notificationView'
+  AppRoute.notificationView: 'notificationView',
+  AppRoute.hireView: 'hireView',
 };
 
 final goRouterProvider = StateProvider<GoRouter>(
@@ -79,17 +81,7 @@ final goRouterProvider = StateProvider<GoRouter>(
               path: routeMap[AppRoute.postJobView]!,
               name: AppRoute.postJobView.name,
               builder: (context, state) {
-                // final image = state.uri.queryParameters['image'];
-                // final title = state.uri.queryParameters['title'];
-                // final description = state.uri.queryParameters['description'];
-                // final category = state.uri.queryParameters['category'];
-
-                return const PostJobView(
-                    // image: image,
-                    // title: title,
-                    // description: description,
-                    // category: category,
-                    );
+                return const PostJobView();
               },
             ),
 
@@ -103,6 +95,17 @@ final goRouterProvider = StateProvider<GoRouter>(
                   id: id,
                 );
               },
+              routes: [
+                // Match Found View
+                // GoRoute(
+                //   path: routeMap[AppRoute.hireView]!,
+                //   name: AppRoute.hireView.name,
+                //   builder: (context, state) {
+                //     final match = state.extra as MatchModel;
+                //     return const HireView();
+                //   },
+                // ),
+              ],
             ),
 
             // Notification View

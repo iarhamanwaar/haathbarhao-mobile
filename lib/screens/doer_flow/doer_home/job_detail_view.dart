@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,7 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:haathbarhao_mobile/gen/assets.gen.dart';
 import 'package:haathbarhao_mobile/gen/colors.gen.dart';
-import 'package:haathbarhao_mobile/utils/jobs_data.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/doer_home/doer_home_provider.dart';
+import 'package:haathbarhao_mobile/screens/doer_flow/doer_home/job_detail_provider.dart';
 import 'package:intl/intl.dart';
 
 class JobDetailView extends ConsumerStatefulWidget {
@@ -25,6 +24,28 @@ class JobDetailView extends ConsumerStatefulWidget {
 class _JobDetailViewState extends ConsumerState<JobDetailView> {
   @override
   Widget build(BuildContext context) {
+    final tasks = ref.watch(taskNotifierProvider);
+    final job = tasks[widget.index];
+
+    Future<void> applyForJob() async {
+      try {
+        await ref.read(jobDetailProvider.notifier).applyForJob(job.id!);
+        // Show success message or update UI accordingly
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Applied successfully'),
+          ),
+        );
+      } catch (e) {
+        // Handle error
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('An error occurred'),
+          ),
+        );
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -34,18 +55,6 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
             color: const Color(0xFF181A1F),
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(
-                Assets.icons.priorityOutlined,
-                color: const Color(0xFF181A1F),
-              ),
-            ),
-          ),
-        ],
       ),
       body: Stack(
         children: [
@@ -70,13 +79,16 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
                         borderRadius: BorderRadius.circular(4),
                       ),
                       clipBehavior: Clip.antiAlias,
-                      child: Image.asset(
-                        jobsData[widget.index]['logo']!.toString(),
+                      child: Image.network(
+                        job.photos != null && job.photos!.isNotEmpty
+                            ? job.photos!.first
+                            : 'assets/default_image.png',
+                        fit: BoxFit.cover,
                       ),
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      jobsData[widget.index]['title']!.toString(),
+                      job.title ?? '',
                       style: GoogleFonts.poppins(
                         fontSize: 26,
                         fontWeight: FontWeight.w500,
@@ -84,7 +96,7 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
                       ),
                     ),
                     Text(
-                      jobsData[widget.index]['company']!.toString(),
+                      job.location ?? '',
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -93,9 +105,7 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
                     ),
                     Text(
                       'Posted on ${DateFormat('d MMMM').format(
-                        DateTime.parse(
-                          jobsData[widget.index]['createdAt']!.toString(),
-                        ),
+                        job.createdAt ?? DateTime.now(),
                       )}',
                       style: GoogleFonts.poppins(
                         fontSize: 12,
@@ -125,9 +135,7 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
                             const SizedBox(height: 10),
                             Text(
                               DateFormat('dd MMMM, y').format(
-                                DateTime.parse(
-                                  jobsData[widget.index]['expiry']!.toString(),
-                                ),
+                                job.date ?? DateTime.now(),
                               ),
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
@@ -152,7 +160,7 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              jobsData[widget.index]['jobNature']!.toString(),
+                              job.category ?? '',
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -174,30 +182,6 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Salary Range'.toUpperCase(),
-                              style: GoogleFonts.poppins(
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.75,
-                                color:
-                                    const Color(0xFF181A1F).withOpacity(0.75),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              jobsData[widget.index]['salary']!.toString(),
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xFF181A1F),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
                               'Job Location'.toUpperCase(),
                               style: GoogleFonts.poppins(
                                 fontSize: 11.5,
@@ -209,7 +193,7 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              jobsData[widget.index]['jobLocation']!.toString(),
+                              job.location ?? '',
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -233,7 +217,7 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      jobsData[widget.index]['longJobDescription']!.toString(),
+                      job.description ?? '',
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -252,27 +236,9 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      jobsData[widget.index]['rolesAndResponsibilities']!
-                          .toString(),
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xFF181A1F),
-                      ),
-                    ),
-                    const SizedBox(height: 50),
-                    Text(
-                      'Benefits'.toUpperCase(),
-                      style: GoogleFonts.poppins(
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.75,
-                        color: const Color(0xFF181A1F).withOpacity(0.75),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      jobsData[widget.index]['benefits']!.toString(),
+                      job.requiredSkills != null
+                          ? job.requiredSkills!.join(', ')
+                          : '',
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -292,7 +258,7 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
             child: SizedBox(
               height: 52,
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: applyForJob,
                 style: OutlinedButton.styleFrom(
                   side: BorderSide.none,
                   shape: RoundedRectangleBorder(
@@ -300,14 +266,22 @@ class _JobDetailViewState extends ConsumerState<JobDetailView> {
                   ),
                   backgroundColor: ColorName.primary,
                 ),
-                child: Text(
-                  'Apply Now'.toUpperCase(),
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: ColorName.white,
-                  ),
-                ),
+                child: ref.watch(jobDetailProvider)
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: ColorName.white,
+                        ),
+                      )
+                    : Text(
+                        'Apply Now'.toUpperCase(),
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: ColorName.white,
+                        ),
+                      ),
               ),
             ),
           ),
